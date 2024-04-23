@@ -28,7 +28,7 @@ void Scene::Update()
 	//シーンに存在するオブジェクトの更新処理
 	for (GameObject* obj : objects)
 	{
-		obj->Draw();
+		obj->Update();
 	}
 }
 
