@@ -22,7 +22,7 @@ public:
 	Vector2D& operator -= (const Vector2D& location);
 
 	const Vector2D operator * (const float& scalar) const;
-	const Vector2D operator * (const Vector2D& location);
+	const Vector2D operator * (const Vector2D& location) const;
 	Vector2D& operator *= (const float& scalar);
 	Vector2D& operator *= (const Vector2D& location);
 

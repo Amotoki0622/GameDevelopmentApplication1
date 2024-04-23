@@ -32,6 +32,16 @@ void Scene::Update()
 	}
 }
 
+//描画処理
+void Scene::Draw() const
+{
+	//シーンに存在するオブジェクトの描画処理
+	for (GameObject* obj : objects)
+	{
+		obj->Draw();
+	}
+}
+
 //終了時処理
 void Scene::Finalize()
 {

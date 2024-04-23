@@ -35,6 +35,11 @@ void GameObject::Draw() const
 
 }
 
+void GameObject::Finalize()
+{
+
+}
+
 //“–‚½‚è”»’è’Ê’mˆ—
 void GameObject::OnHitCollision(GameObject* hit_object)
 {
