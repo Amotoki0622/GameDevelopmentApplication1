@@ -18,8 +18,8 @@ Enemy::~Enemy()
 void Enemy::Initialize()
 {
 	//画像の読込み
-	animation[0] = LoadGraph("Resource/Image/BoxEnemy/1.png");
-	animation[1] = LoadGraph("Resource/Image/BoxEnemy/2.png");
+	animation[0] = LoadGraph("Resource/Images/BoxEnemy/1.png");
+	animation[1] = LoadGraph("Resource/Images/BoxEnemy/2.png");
 
 	//エラーチェック
 	if (animation[0] == -1 || animation[1] == -1)
@@ -92,7 +92,7 @@ void Enemy::OnHitCollision(GameObject* hit_object)
 void Enemy::Movement()
 {
 	//画面端に到達したら、進行方向を反転する
-	if((location.x + direction.x) < box_size.x || (640.0f - box_size.x) < (location.x + direction.x));
+	if(((location.x + direction.x) < box_size.x) || (640.0f - box_size.x) < (location.x + direction.x))
 	{
 		direction.x *= -1.0f;
 	}

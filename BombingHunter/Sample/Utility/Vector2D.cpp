@@ -1,7 +1,8 @@
 #include "Vector2D.h"
 #include <math.h>
 
-Vector2D::Vector2D() : x(0.0f), y(0.0f)
+//コンストラクタ(生成時に呼び出される)
+Vector2D::Vector2D() : x(0.0f), y(0.0f)			//初期子リスト
 {
 
 }
@@ -16,19 +17,25 @@ Vector2D::Vector2D(float mx, float my) : x(mx), y(my)
 
 }
 
+//デストラクタ(解体時に呼び出される)
 Vector2D::~Vector2D()
 {
 
 }
 
+//代入処理を演算子にオーバーロードしています。
 Vector2D& Vector2D::operator= (const Vector2D& location)
 {
+	//自身のメンバ関数xに引数の値を代入する
 	this->x = location.x;
+	//自身のメンバ関数yに引数の値を代入する
 	this->y = location.y;
 
+	//自分自身を返す
 	return *this;
 }
 
+//加算処理
 const Vector2D Vector2D::operator+(const Vector2D& location) const
 {
 	Vector2D result = Vector2D(0.0f);
@@ -39,11 +46,14 @@ const Vector2D Vector2D::operator+(const Vector2D& location) const
 	return result;
 }
 
+//自己代入(加算)
 Vector2D& Vector2D::operator+=(const Vector2D& location)
 {
+	//加算代入する
 	this->x += location.x;
 	this->y += location.y;
 
+	//自分自身を返す
 	return *this;
 }
 

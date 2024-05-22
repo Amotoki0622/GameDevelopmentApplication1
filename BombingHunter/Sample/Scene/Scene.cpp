@@ -15,14 +15,14 @@ Scene::Scene() : objects()
 //デストラクタ
 Scene::~Scene()
 {
-	//忘れ防止
+	//解放忘れ防止
 	Finalize();
 }
 
 //初期化処理
 void Scene::Initialize()
 {
-	//プレイヤーを生成する
+	//プレイヤーを画面中央あたりに生成する
 	CreateObject<Player>(Vector2D(320.0f, 240.0f));
 }
 
@@ -38,7 +38,7 @@ void Scene::Update()
 	//オブジェクト同士の当たり判定チェック
 	for (int i = 0; i < objects.size(); i++)
 	{
-		for (int j = 0; j < objects.size(); j++)
+		for (int j = i + 1; j < objects.size(); j++)
 		{
 			//当たり判定チェック処理
 			HitCheckObject(objects[i], objects[j]);
