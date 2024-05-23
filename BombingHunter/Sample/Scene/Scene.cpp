@@ -45,7 +45,7 @@ void Scene::Update()
 		}
 	}
 
-	//Zキーを押したら、敵を生成する
+	//Zキーを押したら、敵を生成する(初期位置情報の設定)
 	if (InputControl::GetKeyDown(KEY_INPUT_Z))
 	{
 		CreateObject<Enemy>(Vector2D(100.0f, 400.0f));
