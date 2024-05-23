@@ -22,7 +22,7 @@ Scene::~Scene()
 //初期化処理
 void Scene::Initialize()
 {
-	//プレイヤーを画面中央あたりに生成する
+	//プレイヤーを画面中央あたりに生成する(初期位置情報の設定)
 	CreateObject<Player>(Vector2D(320.0f, 240.0f));
 }
 

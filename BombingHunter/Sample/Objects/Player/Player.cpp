@@ -31,7 +31,7 @@ void Player::Initialize()
 	//Œü‚«‚ÌÝ’è
 	radian = 0.0;
 
-	//‘å‚«‚³‚ÌÝ’è
+	//‘å‚«‚³‚ÌÝ’è(“–‚½‚è”»’è‚Ì‚Ú‚Á‚­‚·)
 	box_size = 64.0;
 
 	//‰Šú‰æ‘œ‚ÌÝ’è
