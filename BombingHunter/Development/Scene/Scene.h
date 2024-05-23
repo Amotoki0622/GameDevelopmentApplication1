@@ -1,24 +1,26 @@
 #pragma once
 
-#include <vector>
-#include <string>
 #include "../Objects/GameObject.h"
+#include <vector>
 
 class Scene
 {
 private:
-	std::vector<GameObject*> objects;
+	std::vector<GameObject*> objects;		//オブジェクトリスト
 
 public:
 	Scene();
 	~Scene();
 
-	void Initialize();
-	void Update();
-	void Draw() const;
-	void Finalize();
+	void Initialize();				//初期化処理
+	void Update();					//移動処理
+	void Draw() const;				//描画処理
+	void Finalize();				//終了時処理
 
 private:
+	//当たり判定チェック処理
+	void HitCheckObject(GameObject* a, GameObject* b);
+
 	//オブジェクト生成処理
 	template<class T>
 	T* CreateObject(const Vector2D& location)
@@ -32,7 +34,7 @@ private:
 		if (new_object == nullptr)
 		{
 			delete new_instance;
-			throw std::string("ゲームオブジェクトが生成できませんでした");
+			throw ("GameObjectが生成できませんでした。\n");
 		}
 
 		//初期化処理

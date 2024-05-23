@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "../Objects/Player/Player.h"
 #include "../Objects/Enemy/Enemy.h"
+#include "../Objects/Enemy/WingEnemy.h"
 #include "../Utility/InputControl.h"
 #include "DxLib.h"
 
@@ -23,7 +24,7 @@ Scene::~Scene()
 void Scene::Initialize()
 {
 	//プレイヤーを画面中央あたりに生成する(初期位置情報の設定)
-	CreateObject<Player>(Vector2D(320.0f, 240.0f));
+	CreateObject<Player>(Vector2D(320.0f, 65.0f));
 }
 
 //更新処理
@@ -49,6 +50,12 @@ void Scene::Update()
 	if (InputControl::GetKeyDown(KEY_INPUT_Z))
 	{
 		CreateObject<Enemy>(Vector2D(100.0f, 400.0f));
+	}
+
+	//Cキーを押したら、敵を生成する
+	if (InputControl::GetKeyDown(KEY_INPUT_C))
+	{
+		CreateObject<WingEnemy>(Vector2D(100.0f, 400.0f));
 	}
 }
 

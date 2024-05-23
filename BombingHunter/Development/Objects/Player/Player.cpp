@@ -29,10 +29,10 @@ void Player::Initialize()
 	}
 
 	//向きの設定
-	radian = 0.0f;
+	radian = 0.0;
 
-	//大きさの設定
-	scale = 64.0;
+	//大きさの設定(当たり判定のぼっくす)
+	box_size = 64.0;
 
 	//初期画像の設定
 	image = animation[0];
@@ -53,11 +53,12 @@ void Player::Draw() const
 	//プレイヤー画像の描画
 	DrawRotaGraphF(location.x, location.y, 1.0, radian, image, TRUE, filp_flag);
 
+	__super::Draw();
 	//デバック用
 #if _DEBUG
 	//当たり判定の可視化
-	Vector2D box_collision_upper_left = location - (Vector2D(1.0f) * (float)scale / 2.0f);
-	Vector2D box_collisin_lower_right = location + (Vector2D(1.0f) * (float)scale / 2.0f);
+	Vector2D box_collision_upper_left = location - (box_size / 2.0f);
+	Vector2D box_collisin_lower_right = location + (box_size / 2.0f);
 
 	DrawBoxAA(box_collision_upper_left.x, box_collision_upper_left.y, box_collision_upper_left.x, box_collisin_lower_right.y, GetColor(255, 0, 0), FALSE);
 #endif

@@ -1,25 +1,25 @@
-#include "Enemy.h"
+#include "WingEnemy.h"
 #include "DxLib.h"
 
 //コンストラクタ
-Enemy::Enemy() : animation_count(0), direction(0.0f)
+WingEnemy::WingEnemy() : animation_count(0), direction(0.0f)
 {
 	animation[0] = NULL;
 	animation[1] = NULL;
 }
 
 //デストラクタ
-Enemy::~Enemy()
+WingEnemy::~WingEnemy()
 {
 
 }
 
 //初期化処理
-void Enemy::Initialize()
+void WingEnemy::Initialize()
 {
 	//画像の読込み
-	animation[0] = LoadGraph("Resource/Images/BoxEnemy/1.png");
-	animation[1] = LoadGraph("Resource/Images/BoxEnemy/2.png");
+	animation[0] = LoadGraph("Resource/Images/WingEnemy/1.png");
+	animation[1] = LoadGraph("Resource/Images/WingEnemy/2.png");
 
 	//エラーチェック
 	if (animation[0] == -1 || animation[1] == -1)
@@ -41,7 +41,7 @@ void Enemy::Initialize()
 }
 
 //更新処理
-void Enemy::Update()
+void WingEnemy::Update()
 {
 	//移動処理
 	Movement();
@@ -51,7 +51,7 @@ void Enemy::Update()
 }
 
 //描画処理
-void Enemy::Draw() const
+void WingEnemy::Draw() const
 {
 	//画像反転フラグ
 	int flip_flag = FALSE;
@@ -74,7 +74,7 @@ void Enemy::Draw() const
 }
 
 //終了時処理
-void Enemy::Finalize()
+void WingEnemy::Finalize()
 {
 	//使用した画像を解放
 	DeleteGraph(animation[0]);
@@ -82,17 +82,17 @@ void Enemy::Finalize()
 }
 
 //当たり判定通知処理
-void Enemy::OnHitCollision(GameObject* hit_object)
+void WingEnemy::OnHitCollision(GameObject* hit_object)
 {
 	//当たったときの処理
 	direction = 0.0f;
 }
 
 //移動処理
-void Enemy::Movement()
+void WingEnemy::Movement()
 {
 	//画面端に到達したら、進行方向を反転する
-	if(((location.x + direction.x) < box_size.x) || (640.0f - box_size.x) < (location.x + direction.x))
+	if (((location.x + direction.x) < box_size.x) || (640.0f - box_size.x) < (location.x + direction.x))
 	{
 		direction.x *= -1.0f;
 	}
@@ -106,13 +106,13 @@ void Enemy::Movement()
 }
 
 //アニメーション制御
-void Enemy::AnimationControl()
+void WingEnemy::AnimationControl()
 {
 	//アニメーションカウントを加算する
 	animation_count++;
 
 	//30フレーム目に到達したら
-	if (animation_count >= 60)
+	if (animation_count >= 30)
 	{
 		//カウントのリセット
 		animation_count = 0;
