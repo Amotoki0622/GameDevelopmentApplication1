@@ -1,25 +1,31 @@
-#include "WingEnemy.h"
+#include "GoldEnemy.h"
 #include "DxLib.h"
 
 //コンストラクタ
-WingEnemy::WingEnemy() : animation_count(0), direction(0.0f)
+GoldEnemy::GoldEnemy() : animation_count(0), direction(0.0f)
 {
 	animation[0] = NULL;
 	animation[1] = NULL;
+	animation[2] = NULL;
+	animation[3] = NULL;
+	animation[4] = NULL;
 }
 
 //デストラクタ
-WingEnemy::~WingEnemy()
+GoldEnemy::~GoldEnemy()
 {
 
 }
 
 //初期化処理
-void WingEnemy::Initialize()
+void GoldEnemy::Initialize()
 {
 	//画像の読込み
-	animation[0] = LoadGraph("Resource/Images/WingEnemy/1.png");
-	animation[1] = LoadGraph("Resource/Images/WingEnemy/2.png");
+	animation[0] = LoadGraph("Resource/Images/GoldEnemy/1.png");
+	animation[1] = LoadGraph("Resource/Images/GoldEnemy/2.png");
+	animation[2] = LoadGraph("Resource/Images/GoldEnemy/3.png");
+	animation[3] = LoadGraph("Resource/Images/GoldEnemy/4.png");
+	animation[4] = LoadGraph("Resource/Images/GoldEnemy/5.png");
 
 	//エラーチェック
 	if (animation[0] == -1 || animation[1] == -1)
@@ -31,7 +37,7 @@ void WingEnemy::Initialize()
 	radian = 0.0f;
 
 	//当たり判定の大きさと設定
-	box_size = 65.0f;
+	box_size = 45.0f;
 
 	//初期画像の設定
 	image = animation[0];
@@ -41,10 +47,11 @@ void WingEnemy::Initialize()
 
 	int spran = GetRand(10);
 	direction = Vector2D(spran / 10.0f, 0.0f);
+
 }
 
 //更新処理
-void WingEnemy::Update()
+void GoldEnemy::Update()
 {
 	//移動処理
 	Movement();
@@ -54,7 +61,7 @@ void WingEnemy::Update()
 }
 
 //描画処理
-void WingEnemy::Draw() const
+void GoldEnemy::Draw() const
 {
 	//画像反転フラグ
 	int flip_flag = FALSE;
@@ -69,15 +76,15 @@ void WingEnemy::Draw() const
 		flip_flag = TRUE;
 	}
 
-	//情報を基にハコ敵画像を描画する		↓大きさ
-	DrawRotaGraphF(location.x, location.y, 0.6, radian, image, TRUE, flip_flag);
+	//情報を基にハコ敵画像を描画する
+	DrawRotaGraphF(location.x, location.y, 0.7, radian, image, TRUE, flip_flag);
 
 	//親クラスの描画処理を呼び出す
 	__super::Draw();
 }
 
 //終了時処理
-void WingEnemy::Finalize()
+void GoldEnemy::Finalize()
 {
 	//使用した画像を解放
 	DeleteGraph(animation[0]);
@@ -85,14 +92,14 @@ void WingEnemy::Finalize()
 }
 
 //当たり判定通知処理
-void WingEnemy::OnHitCollision(GameObject* hit_object)
+void GoldEnemy::OnHitCollision(GameObject* hit_object)
 {
 	//当たったときの処理
 	direction = 0.0f;
 }
 
 //移動処理
-void WingEnemy::Movement()
+void GoldEnemy::Movement()
 {
 	//画面端に到達したら、進行方向を反転する
 	if (((location.x + direction.x) < box_size.x) || (640.0f - box_size.x) < (location.x + direction.x))
@@ -109,13 +116,13 @@ void WingEnemy::Movement()
 }
 
 //アニメーション制御
-void WingEnemy::AnimationControl()
+void GoldEnemy::AnimationControl()
 {
 	//アニメーションカウントを加算する
 	animation_count++;
 
 	//30フレーム目に到達したら
-	if (animation_count >= 30)
+	if (animation_count >= 60)
 	{
 		//カウントのリセット
 		animation_count = 0;
@@ -124,6 +131,18 @@ void WingEnemy::AnimationControl()
 		if (image == animation[0])
 		{
 			image = animation[1];
+		}
+		else if(image == animation[1])
+		{
+			image = animation[2];
+		}
+		else if (image == animation[2])
+		{
+			image = animation[3];
+		}
+		else if (image == animation[3])
+		{
+			image = animation[4];
 		}
 		else
 		{

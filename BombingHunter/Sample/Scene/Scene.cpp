@@ -2,13 +2,16 @@
 #include "../Objects/Player/Player.h"
 #include "../Objects/Enemy/Enemy.h"
 #include "../Objects/Enemy/WingEnemy.h"
+#include "../Objects/Enemy/GoldEnemy.h"
+#include "../Objects/Enemy/Harpy.h"
 #include "../Utility/InputControl.h"
+#include "../Utility/Vector2D.h"
 #include "DxLib.h"
 
 #define D_PIVOT_CENTER
 
 //コンストラクタ
-Scene::Scene() : objects()
+Scene::Scene() : objects(), image(0.0f)
 {
 
 }
@@ -23,9 +26,44 @@ Scene::~Scene()
 //初期化処理
 void Scene::Initialize()
 {
+	image = LoadGraph("Resource/Images/BackGround.png");
 	//プレイヤーを画面中央あたりに生成する(初期位置情報の設定)
-	CreateObject<Player>(Vector2D(320.0f, 65.0f));
+	CreateObject<Player>(Vector2D(320.0f, 45.0f));
+
+	SpawnEnemy();
 }
+
+/*/void Scene::SpawnEnemy()
+{
+	//Zキーを押したら、敵を生成する(初期位置情報の設定)
+	if (InputControl::GetKeyDown(KEY_INPUT_Z))
+	{
+		//乱数を取得(Y座標を150～390に収めるように)
+		int ran = GetRand(3);
+		int ran2 = GetRand(2);
+
+		switch (ran2)
+		{
+		case 0:
+			CreateObject<Enemy>(Vector2D(100.0f, 150.0f + (ran * 80)));
+			break;
+
+		case 1:
+			CreateObject<GoldEnemy>(Vector2D(100.0f, 150.0f + (ran * 80)));
+			break;
+
+		case 2:
+			CreateObject<Harpy>(Vector2D(100.0f, 150.0f + (ran * 80)));
+			break;
+
+		default:
+				CreateObject<WingEnemy>(Vector2D(100.0f, 150.0f + (ran * 80)));
+			break;
+		}
+		//CreateObject<Enemy>(Vector2D(100.0f, 150.0f + (ran * 80)));
+	}
+
+}*/
 
 //更新処理
 void Scene::Update()
@@ -46,22 +84,63 @@ void Scene::Update()
 		}
 	}
 
+	SpawnEnemy();
+
+	//Zキーを押したら、敵を生成する(初期位置情報の設定)
+	//if (InputControl::GetKeyDown(KEY_INPUT_Z))
+	//{
+	//	//乱数を取得(Y座標を150～390に収めるように)
+	//	//int a = GetRand(3);
+	//	//CreateObject<Enemy>(Vector2D(100.0f, 150.0f + (a * 80)));
+	//}
+	
+	//Cキーを押したら、敵を生成する
+	/*if (InputControl::GetKeyDown(KEY_INPUT_C))
+	{
+		CreateObject<WingEnemy>(Vector2D(100.0f, 400.0f));
+	}*/
+}
+
+void Scene::SpawnEnemy()
+{
 	//Zキーを押したら、敵を生成する(初期位置情報の設定)
 	if (InputControl::GetKeyDown(KEY_INPUT_Z))
 	{
-		CreateObject<Enemy>(Vector2D(100.0f, 400.0f));
+		//乱数を取得(Y座標を150～390に収めるように)
+		int ran = GetRand(3);
+		int ran2 = GetRand(3);
+
+		switch (ran2)
+		{
+		case 0:
+			CreateObject<Enemy>(Vector2D(100.0f, 150.0f + (ran * 80)));
+			break;
+
+		case 1:
+			CreateObject<GoldEnemy>(Vector2D(100.0f, 150.0f + (ran * 80)));
+			break;
+
+		case 2:
+			CreateObject<Harpy>(Vector2D(100.0f, 150.0f + (ran * 80)));
+			break;
+
+		default:
+			CreateObject<WingEnemy>(Vector2D(100.0f, 150.0f + (ran * 80)));
+			break;
+		}
+		//CreateObject<Enemy>(Vector2D(100.0f, 150.0f + (ran * 80)));
 	}
 
-	//Cキーを押したら、敵を生成する
-	if (InputControl::GetKeyDown(KEY_INPUT_C))
-	{
-		CreateObject<WingEnemy>(Vector2D(100.0f, 400.0f));
-	}
 }
+
 
 //描画処理
 void Scene::Draw() const
 {
+
+	DrawExtendGraph(0.0f, 0.0f, 640.0f, 480.0f, image, TRUE);
+
+
 	//シーンに存在するオブジェクトの描画処理
 	for (GameObject* obj : objects)
 	{

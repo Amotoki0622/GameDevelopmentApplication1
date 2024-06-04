@@ -51,7 +51,7 @@ void Player::Update()
 void Player::Draw() const
 {
 	//プレイヤー画像の描画
-	DrawRotaGraphF(location.x, location.y, 1.0, radian, image, TRUE, filp_flag);
+	DrawRotaGraphF(location.x, location.y, 0.7, radian, image, TRUE, filp_flag);
 
 	__super::Draw();
 	//デバック用
@@ -98,6 +98,16 @@ void Player::Movement()
 	else
 	{
 		velocity.x += 0.0f;
+	}
+
+	//画面外に行かないようにする
+	if (location.x >= 608)		//もし右端に到達したら
+	{
+		velocity.x += -1.0f;
+	}
+	else if (location.x <= 32)	//もし左端に到達したら
+	{
+		velocity.x += 1.0f;
 	}
 
 	//現在の位置座標に速さを加速する

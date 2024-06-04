@@ -133,6 +133,8 @@
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="Objects\Enemy\Enemy.cpp" />
+    <ClCompile Include="Objects\Enemy\GoldEnemy.cpp" />
+    <ClCompile Include="Objects\Enemy\Harpy.cpp" />
     <ClCompile Include="Objects\Enemy\WingEnemy.cpp" />
     <ClCompile Include="Objects\GameObject.cpp" />
     <ClCompile Include="Objects\Player\Player.cpp" />
@@ -142,6 +144,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Objects\Enemy\Enemy.h" />
+    <ClInclude Include="Objects\Enemy\GoldEnemy.h" />
+    <ClInclude Include="Objects\Enemy\Harpy.h" />
     <ClInclude Include="Objects\Enemy\WingEnemy.h" />
     <ClInclude Include="Objects\GameObject.h" />
     <ClInclude Include="Objects\Player\Player.h" />

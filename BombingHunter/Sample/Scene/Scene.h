@@ -8,14 +8,19 @@ class Scene
 private:
 	std::vector<GameObject*> objects;		//オブジェクトリスト
 
+private:
+	int image;					//背景画像
+
 public:
 	Scene();
 	~Scene();
 
 	void Initialize();				//初期化処理
 	void Update();					//移動処理
+	void SpawnEnemy();				//敵の生成
 	void Draw() const;				//描画処理
 	void Finalize();				//終了時処理
+	
 
 private:
 	//当たり判定チェック処理
