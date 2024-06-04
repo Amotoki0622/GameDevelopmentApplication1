@@ -1,50 +1,41 @@
-#include "Harpy.h"
+#include "Bomb.h"
 #include "DxLib.h"
 
 //コンストラクタ
-Harpy::Harpy() : animation_count(0), direction(0.0f)
+Bomb::Bomb() : animation_count(0),image(0), direction(0.0f)	
 {
-	animation[0] = NULL;
-	animation[1] = NULL;
 }
 
 //デストラクタ
-Harpy::~Harpy()
+Bomb::~Bomb()
 {
 
 }
 
 //初期化処理
-void Harpy::Initialize()
+void Bomb::Initialize()
 {
 	//画像の読込み
-	animation[0] = LoadGraph("Resource/Images/Harpy/1.png");
-	animation[1] = LoadGraph("Resource/Images/Harpy/2.png");
+	image = LoadGraph("Resource/Images/Bomb/Bomb.png");
 
 	//エラーチェック
-	if (animation[0] == -1 || animation[1] == -1)
+	if (image == -1)
 	{
-		throw("ハーピーの画像がありません\n");
+		throw("ばくだんの画像がありません\n");
 	}
 
 	//向きの設定
 	radian = 0.0f;
 
 	//当たり判定の大きさと設定
-	box_size = 64.0f;
-
-	//初期画像の設定
-	image = animation[0];
+	box_size = 70.0f;
 
 	//初期進行方向の設定
-	direction = Vector2D(1.0f, -0.5f);
-
-	int spran = GetRand(10);
-	direction = Vector2D(spran / 10.0f, 0.0f);
+	direction = Vector2D(0.0f, 1.0f);
 }
 
 //更新処理
-void Harpy::Update()
+void Bomb::Update()
 {
 	//移動処理
 	Movement();
@@ -54,7 +45,7 @@ void Harpy::Update()
 }
 
 //描画処理
-void Harpy::Draw() const
+void Bomb::Draw() const
 {
 	//画像反転フラグ
 	int flip_flag = FALSE;
@@ -77,22 +68,21 @@ void Harpy::Draw() const
 }
 
 //終了時処理
-void Harpy::Finalize()
+void Bomb::Finalize()
 {
 	//使用した画像を解放
-	DeleteGraph(animation[0]);
-	DeleteGraph(animation[1]);
+	DeleteGraph(image);
 }
 
 //当たり判定通知処理
-void Harpy::OnHitCollision(GameObject* hit_object)
+void Bomb::OnHitCollision(GameObject* hit_object)
 {
 	//当たったときの処理
 	direction = 0.0f;
 }
 
 //移動処理
-void Harpy::Movement()
+void Bomb::Movement()
 {
 	//画面端に到達したら、進行方向を反転する
 	if (((location.x + direction.x) < box_size.x) || (640.0f - box_size.x) < (location.x + direction.x))
@@ -109,25 +99,25 @@ void Harpy::Movement()
 }
 
 //アニメーション制御
-void Harpy::AnimationControl()
-{
-	//アニメーションカウントを加算する
-	animation_count++;
-
-	//30フレーム目に到達したら
-	if (animation_count >= 30)
-	{
-		//カウントのリセット
-		animation_count = 0;
-
-		//画像の切り替え
-		if (image == animation[0])
-		{
-			image = animation[1];
-		}
-		else
-		{
-			image = animation[0];
-		}
-	}
+//void Bomb::AnimationControl()
+//{
+//	//アニメーションカウントを加算する
+//	animation_count++;
+//
+//	//30フレーム目に到達したら
+//	if (animation_count >= 60)
+//	{
+//		//カウントのリセット
+//		animation_count = 0;
+//
+//		//画像の切り替え
+//		if (image == animation[0])
+//		{
+//			image = animation[1];
+//		}
+//		else
+//		{
+//			image = animation[0];
+//		}
+//	}
 }

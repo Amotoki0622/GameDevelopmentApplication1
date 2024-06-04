@@ -24,7 +24,7 @@ void WingEnemy::Initialize()
 	//エラーチェック
 	if (animation[0] == -1 || animation[1] == -1)
 	{
-		throw("ハコテキの画像がありません\n");
+		throw("ハネテキの画像がありません\n");
 	}
 
 	//向きの設定

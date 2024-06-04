@@ -28,9 +28,9 @@ void GoldEnemy::Initialize()
 	animation[4] = LoadGraph("Resource/Images/GoldEnemy/5.png");
 
 	//エラーチェック
-	if (animation[0] == -1 || animation[1] == -1)
+	if (animation[0] == -1 || animation[1] == -1 || animation[2] == -1 || animation[3] == -1 || animation[4] == -1)
 	{
-		throw("ハコテキの画像がありません\n");
+		throw("金のテキの画像がありません\n");
 	}
 
 	//向きの設定
@@ -45,7 +45,7 @@ void GoldEnemy::Initialize()
 	//初期進行方向の設定
 	direction = Vector2D(1.0f, -0.5f);
 
-	int spran = GetRand(10);
+	int spran = GetRand(5);
 	direction = Vector2D(spran / 10.0f, 0.0f);
 
 }
