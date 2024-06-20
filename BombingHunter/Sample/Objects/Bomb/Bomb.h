@@ -19,11 +19,11 @@ public:
 	virtual void Finalize() override;				//終了処理
 
 	//当たり判定通知処理
-	virtual void OnHitCollision(GameObject* hit_object) override;
+	//virtual void OnHitCollision(GameObject* hit_object) override;
 
 private:
 	//移動処理
 	void Movement();
-	//アニメーション制御
-	void AnimationControl();
+	//アニメーション制御	後で使うかも
+	//void AnimationControl();
 };

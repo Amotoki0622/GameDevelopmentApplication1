@@ -4,6 +4,7 @@
 //コンストラクタ
 Bomb::Bomb() : animation_count(0),image(0), direction(0.0f)	
 {
+
 }
 
 //デストラクタ
@@ -25,7 +26,7 @@ void Bomb::Initialize()
 	}
 
 	//向きの設定
-	radian = 0.0f;
+	radian = 3.14/2;
 
 	//当たり判定の大きさと設定
 	box_size = 70.0f;
@@ -41,27 +42,26 @@ void Bomb::Update()
 	Movement();
 
 	//アニメーション制御
-	AnimationControl();
+	//AnimationControl();
 }
 
 //描画処理
 void Bomb::Draw() const
 {
-	//画像反転フラグ
-	int flip_flag = FALSE;
-
-	//進行方向によって、反転状態を決定する
-	if (direction.x > 0.0f)
-	{
-		flip_flag = FALSE;
-	}
-	else
-	{
-		flip_flag = TRUE;
-	}
-
-	//情報を基にハコ敵画像を描画する
-	DrawRotaGraphF(location.x, location.y, 0.7, radian, image, TRUE, flip_flag);
+	////画像反転フラグ
+	//int flip_flag = FALSE;
+	//
+	////進行方向によって、反転状態を決定する
+	//if (direction.x > 0.0f)
+	//{
+	//	flip_flag = FALSE;
+	//}
+	//else
+	//{
+	//	flip_flag = TRUE;
+	//}
+	//情報を基にバクダン画像を描画する
+	DrawRotaGraphF(location.x, location.y, 0.7, radian, image, TRUE, FALSE);
 
 	//親クラスの描画処理を呼び出す
 	__super::Draw();
@@ -75,24 +75,24 @@ void Bomb::Finalize()
 }
 
 //当たり判定通知処理
-void Bomb::OnHitCollision(GameObject* hit_object)
-{
-	//当たったときの処理
-	direction = 0.0f;
-}
+//void Bomb::OnHitCollision(GameObject* hit_object)
+//{
+//	//当たったときの処理
+//	direction = 0.0f;
+//}
 
 //移動処理
 void Bomb::Movement()
 {
 	//画面端に到達したら、進行方向を反転する
-	if (((location.x + direction.x) < box_size.x) || (640.0f - box_size.x) < (location.x + direction.x))
-	{
-		direction.x *= -1.0f;
-	}
-	if (((location.y + direction.y) < box_size.y) || (480.0f - box_size.y) < (location.y + direction.y))
-	{
-		direction.y *= -1.0f;
-	}
+	//if (((location.x + direction.x) < box_size.x) || (640.0f - box_size.x) < (location.x + direction.x))
+	//{
+	//	direction.x *= -1.0f;
+	//}
+	//if (((location.y + direction.y) < box_size.y) || (480.0f - box_size.y) < (location.y + direction.y))
+	//{
+	//	direction.y *= -1.0f;
+	//}
 
 	//進行方向に向かって、位置座標を変更する
 	location += direction;
@@ -120,4 +120,4 @@ void Bomb::Movement()
 //			image = animation[0];
 //		}
 //	}
-}
+//}

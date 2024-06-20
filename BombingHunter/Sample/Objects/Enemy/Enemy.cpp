@@ -37,15 +37,15 @@ void Enemy::Initialize()
 	image = animation[0];
 
 	//初期進行方向の設定
-	direction = Vector2D(1.0f, -0.5f);
+	direction = Vector2D(1.0f, 0.0f);
 
 	//速さの変更(ランダムにするよう)
-	int spran = GetRand(10);								//試作
-	if (spran == 0)
-	{
-		spran = 1;
-	}
-	direction = Vector2D(spran / 10.0f, 0.0f);
+//	int spran = GetRand(10);								//試作
+//	if (spran == 0)
+//	{
+//		spran = 1;
+//	}
+//	direction = Vector2D(spran / 10.0f, 0.0f);
 }
 
 //更新処理
@@ -94,6 +94,13 @@ void Enemy::OnHitCollision(GameObject* hit_object)
 {
 	//当たったときの処理
 	direction = 0.0f;
+	
+	//プレイヤーの弾と当たったとき
+	//if (hit_object->GetType() == PLAYER_BULLET)
+	//{
+		// 自分を削除する
+	//}
+	//敵とぶつかったとき
 }
 
 //移動処理

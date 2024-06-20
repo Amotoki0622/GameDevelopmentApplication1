@@ -51,6 +51,12 @@ void GameObject::Finalize()
 
 }
 
+//当たったオブジェクトを区別する処理
+void GameObject::GetType(GameObject* hit_object)
+{
+
+}
+
 //当たり判定通知処理
 void GameObject::OnHitCollision(GameObject* hit_object)
 {

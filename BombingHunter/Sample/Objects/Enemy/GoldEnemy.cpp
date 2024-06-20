@@ -43,10 +43,10 @@ void GoldEnemy::Initialize()
 	image = animation[0];
 
 	//‰Šúis•ûŒü‚Ìİ’è
-	direction = Vector2D(1.0f, -0.5f);
+	direction = Vector2D(1.0f, 0.0f);
 
-	int spran = GetRand(5);
-	direction = Vector2D(spran / 10.0f, 0.0f);
+//	int spran = GetRand(5);
+//	direction = Vector2D(spran / 10.0f, 0.0f);
 
 }
 

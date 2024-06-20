@@ -20,11 +20,14 @@ public:
 	void SpawnEnemy();				//敵の生成
 	void Draw() const;				//描画処理
 	void Finalize();				//終了時処理
+	//void Check_ScreenOut();			//画像が画面外に行った時の処理
+	//void DeleteObject(GameObject* hit_object);
+	//void Check_OffScreen();
 	
 
 private:
 	//当たり判定チェック処理
-	void HitCheckObject(GameObject* a, GameObject* b);
+	void HitCheckObject(GameObject* a, GameObject* b); 
 
 	//オブジェクト生成処理
 	template<class T>
