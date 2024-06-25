@@ -42,9 +42,8 @@ void Scene::Initialize()
 //更新処理
 void Scene::Update()
 {
-
-	SpawnEnemy();
-
+	int i = 0;
+	int j = 0;
 	Vector2D p = 0.0;
 	p = objects[0]->GetLocation().x;
 	//シーンに存在するオブジェクトの更新処理
@@ -63,6 +62,8 @@ void Scene::Update()
 		}
 	}
 
+	
+
 
 	//スペースキーを押したら、バクダンを生成する
 	if (InputControl::GetKeyDown(KEY_INPUT_SPACE))
@@ -70,6 +71,7 @@ void Scene::Update()
 		CreateObject<Bomb>(Vector2D(p.x, 114.0f));
 	}
 
+	SpawnEnemy();
 
 
 	//Zキーを押したら、敵を生成する(初期位置情報の設定)

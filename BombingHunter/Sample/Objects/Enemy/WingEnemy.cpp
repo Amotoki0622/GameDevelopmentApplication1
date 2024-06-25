@@ -17,6 +17,9 @@ WingEnemy::~WingEnemy()
 //初期化処理
 void WingEnemy::Initialize()
 {
+	//これがなんのオブジェクトか判別する変数(この場合ハネテキ)
+	type = ENEMY_HANE;
+
 	//画像の読込み
 	animation[0] = LoadGraph("Resource/Images/WingEnemy/1.png");
 	animation[1] = LoadGraph("Resource/Images/WingEnemy/2.png");
@@ -88,7 +91,13 @@ void WingEnemy::Finalize()
 void WingEnemy::OnHitCollision(GameObject* hit_object)
 {
 	//当たったときの処理
-	direction = 0.0f;
+	//direction = 0.0f;
+
+	if (hit_object->GetType() == PLAYER_BOMB)
+	{
+		direction = 0.0f;				//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+	}
+
 }
 
 //移動処理

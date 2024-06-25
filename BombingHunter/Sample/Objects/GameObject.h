@@ -4,16 +4,15 @@
 
 #define D_PIVOT_CENTER			//座標の原点を画像の中心にする
 
-#define ENEMY_ALL	(6)			//敵の総数(敵の弾も含める)
+//#define ENEMY_ALL	(6)			//敵の総数(敵の弾も含める)
 
-/*オブジェクトの種類の判別する方法*/
-#define P_BULLET		(0)			//プレイヤーの弾
-#define E_BULLET		(1)			//敵の弾(ハコテキから出てくる弾)
-#define ENEMY			(2)			//敵(ハコテキ)
-#define ENEMY2			(3)			//敵(金のテキ)
-#define ENEMY3			(4)			//敵(ハネテキ)
-#define ENEMY4			(5)			//ハーピー
-/*オブジェクトの種類の判別する方法*/
+
+/*試作 (Developmentに書くときはもっとわかりやすく)*/
+#define PLAYER_BOMB		(0)			//敵の弾
+#define ENEMY_HAKO		(1)		//敵(ハコテキのオブジェクト)
+#define ENEMY_HANE		(2)		//敵(一応ハネテキのオブジェクト)
+#define ENEMY_GOLD		(3)		//敵(一応金のテキのオブジェクト)
+#define HARPY		(4)		//敵(一応ハコテキのオブジェクト)
 
 //ゲームオブジェクト基底クラス
 class GameObject
@@ -24,7 +23,7 @@ protected:
 	double radian;							//向き
 	int image;								//画像
 	int sound;								//音源
-	int p[ENEMY_ALL];
+	int type;							//種類(試作)
 
 public:
 	GameObject();
@@ -34,9 +33,6 @@ public:
 	virtual void Update();					//更新処理
 	virtual void Draw() const;				//描画処理
 	virtual void Finalize();				//終了時処理
-
-	//オブジェクトの種類を判別する処理
-	virtual void GetType(GameObject* hit_object);
 
 	//当たり判定通知処理
 	virtual void OnHitCollision(GameObject* hit_object);
@@ -50,4 +46,6 @@ public:
 	//当たり判定の大きさを取得する
 	Vector2D GetBoxSize() const;
 
+	//オブジェクトのタイプを判別する処理
+	int GetType();
 };

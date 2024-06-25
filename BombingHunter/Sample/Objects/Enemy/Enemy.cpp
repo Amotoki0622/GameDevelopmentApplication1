@@ -17,6 +17,9 @@ Enemy::~Enemy()
 //初期化処理
 void Enemy::Initialize()
 {
+	//これがなんのオブジェクトか判別する変数(この場合ハコテキ)
+	type = ENEMY_HAKO;
+
 	//画像の読込み
 	animation[0] = LoadGraph("Resource/Images/BoxEnemy/1.png");
 	animation[1] = LoadGraph("Resource/Images/BoxEnemy/2.png");
@@ -93,7 +96,7 @@ void Enemy::Finalize()
 void Enemy::OnHitCollision(GameObject* hit_object)
 {
 	//当たったときの処理
-	direction = 0.0f;
+	//direction = 0.0f;
 	
 	//プレイヤーの弾と当たったとき
 	//if (hit_object->GetType() == PLAYER_BULLET)
@@ -101,6 +104,11 @@ void Enemy::OnHitCollision(GameObject* hit_object)
 		// 自分を削除する
 	//}
 	//敵とぶつかったとき
+
+	if (hit_object->GetType() == PLAYER_BOMB)
+	{
+		direction = 0.0f;				//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+	}
 }
 
 //移動処理
@@ -118,6 +126,8 @@ void Enemy::Movement()
 
 	//進行方向に向かって、位置座標を変更する
 	location += direction;
+
+	//画像の削除	範囲外に行ったときに消す処理
 }
 
 //アニメーション制御

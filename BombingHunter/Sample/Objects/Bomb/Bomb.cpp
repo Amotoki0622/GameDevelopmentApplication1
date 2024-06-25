@@ -16,6 +16,9 @@ Bomb::~Bomb()
 //初期化処理
 void Bomb::Initialize()
 {
+	//これがなんのオブジェクトか判別する変数(この場合プレイヤーの爆弾)
+	type = PLAYER_BOMB;
+
 	//画像の読込み
 	image = LoadGraph("Resource/Images/Bomb/Bomb.png");
 
@@ -75,11 +78,36 @@ void Bomb::Finalize()
 }
 
 //当たり判定通知処理
-//void Bomb::OnHitCollision(GameObject* hit_object)
-//{
-//	//当たったときの処理
-//	direction = 0.0f;
-//}
+void Bomb::OnHitCollision(GameObject* hit_object)
+{
+	//当たったときの処理
+	//if(もし当たったのが敵だったら)
+	//{
+	// AnimationControl(当たったとき)
+	//	弾を削除する(画像だけでなく、オブジェクト自体を)
+	//}
+	//direction = 0.0f;
+ 	if (hit_object->GetType() == ENEMY_HAKO)
+	{
+		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+	}
+
+	if (hit_object->GetType() == ENEMY_HANE)
+	{
+		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+	}
+
+	if (hit_object->GetType() == ENEMY_GOLD)
+	{
+		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+	}
+
+	if (hit_object->GetType() == HARPY)
+	{
+		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+	}
+
+}
 
 //移動処理
 void Bomb::Movement()

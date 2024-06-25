@@ -7,7 +7,8 @@ GameObject::GameObject() :
 	box_size(0.0f),
 	radian(0.0),
 	image(NULL),
-	sound(NULL)
+	sound(NULL),
+	type(0)
 {
 }
 
@@ -51,11 +52,6 @@ void GameObject::Finalize()
 
 }
 
-//当たったオブジェクトを区別する処理
-void GameObject::GetType(GameObject* hit_object)
-{
-
-}
 
 //当たり判定通知処理
 void GameObject::OnHitCollision(GameObject* hit_object)
@@ -78,4 +74,9 @@ void GameObject::SetLocation(const Vector2D& location)
 Vector2D GameObject::GetBoxSize() const
 {
 	return box_size;
+}
+
+int GameObject::GetType()
+{
+	 return this->type;
 }

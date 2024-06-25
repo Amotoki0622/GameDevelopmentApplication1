@@ -17,6 +17,9 @@ Harpy::~Harpy()
 //初期化処理
 void Harpy::Initialize()
 {
+	//これがなんのオブジェクトか判別する変数(この場合ハーピー)
+	type = HARPY;
+
 	//画像の読込み
 	animation[0] = LoadGraph("Resource/Images/Harpy/1.png");
 	animation[1] = LoadGraph("Resource/Images/Harpy/2.png");
@@ -88,7 +91,13 @@ void Harpy::Finalize()
 void Harpy::OnHitCollision(GameObject* hit_object)
 {
 	//当たったときの処理
-	direction = 0.0f;
+	//direction = 0.0f;
+
+	if (hit_object->GetType() == PLAYER_BOMB)
+	{
+		direction = 0.0f;				//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+	}
+
 }
 
 //移動処理

@@ -20,6 +20,9 @@ GoldEnemy::~GoldEnemy()
 //初期化処理
 void GoldEnemy::Initialize()
 {
+	//これがなんのオブジェクトか判別する変数(この場合金のテキ)
+	type = ENEMY_GOLD;
+
 	//画像の読込み
 	animation[0] = LoadGraph("Resource/Images/GoldEnemy/1.png");
 	animation[1] = LoadGraph("Resource/Images/GoldEnemy/2.png");
@@ -95,7 +98,13 @@ void GoldEnemy::Finalize()
 void GoldEnemy::OnHitCollision(GameObject* hit_object)
 {
 	//当たったときの処理
-	direction = 0.0f;
+	//direction = 0.0f;
+
+	//プレイヤーの弾と当たったとき
+	if (hit_object->GetType() == PLAYER_BOMB)
+	{
+		direction = 0.0f;				//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+	}
 }
 
 //移動処理
