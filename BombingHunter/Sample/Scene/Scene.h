@@ -10,6 +10,12 @@ private:
 
 private:
 	int image;					//背景画像
+	int count;					//自動生成カウント
+	int time_count;				//カウント
+	int time;					//時間
+	int number_image[12];		//数字の画像
+	int score;					//スコア	
+	int score_im;				//スコアの画像
 
 public:
 	Scene();
@@ -17,13 +23,15 @@ public:
 
 	void Initialize();				//初期化処理
 	void Update();					//移動処理
-	void SpawnEnemy();				//敵の生成
+	void SpawnEnemy();				//敵の手動生成
+	void OutoSpawnEnemy();			//敵の自動生成
 	void Draw() const;				//描画処理
 	void Finalize();				//終了時処理
-	//void Check_ScreenOut();			//画像が画面外に行った時の処理
-	//void DeleteObject(GameObject* hit_object);
-	//void Check_OffScreen();
-	
+	void Delete();					//削除処理
+	void ScreenOutDelete();			//画面外の削除処理
+	void Timer();
+	void TotalScore();				//合計点数
+
 
 private:
 	//当たり判定チェック処理

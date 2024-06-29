@@ -8,7 +8,9 @@ GameObject::GameObject() :
 	radian(0.0),
 	image(NULL),
 	sound(NULL),
-	type(0)
+	type(0),
+	flg(FALSE),
+	score(0)
 {
 }
 
@@ -79,4 +81,14 @@ Vector2D GameObject::GetBoxSize() const
 int GameObject::GetType()
 {
 	 return this->type;
+}
+
+//int GameObject::GetScere()
+//{
+//	return this->score;
+//}
+
+bool GameObject::DeleteFlg()
+{
+	return this->flg;
 }

@@ -17,9 +17,10 @@ Enemy::~Enemy()
 //初期化処理
 void Enemy::Initialize()
 {
+	
 	//これがなんのオブジェクトか判別する変数(この場合ハコテキ)
 	type = ENEMY_HAKO;
-
+	score = HAKOENEMY_P;
 	//画像の読込み
 	animation[0] = LoadGraph("Resource/Images/BoxEnemy/1.png");
 	animation[1] = LoadGraph("Resource/Images/BoxEnemy/2.png");
@@ -42,13 +43,8 @@ void Enemy::Initialize()
 	//初期進行方向の設定
 	direction = Vector2D(1.0f, 0.0f);
 
-	//速さの変更(ランダムにするよう)
-//	int spran = GetRand(10);								//試作
-//	if (spran == 0)
-//	{
-//		spran = 1;
-//	}
-//	direction = Vector2D(spran / 10.0f, 0.0f);
+	//
+
 }
 
 //更新処理
@@ -108,6 +104,7 @@ void Enemy::OnHitCollision(GameObject* hit_object)
 	if (hit_object->GetType() == PLAYER_BOMB)
 	{
 		direction = 0.0f;				//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+		flg = TRUE;
 	}
 }
 
@@ -115,19 +112,18 @@ void Enemy::OnHitCollision(GameObject* hit_object)
 void Enemy::Movement()
 {
 	//画面端に到達したら、進行方向を反転する
-	if (((location.x + direction.x) < box_size.x) || (640.0f - box_size.x) < (location.x + direction.x))
+	/*if (((location.x + direction.x) < box_size.x) || (640.0f - box_size.x) < (location.x + direction.x))
 	{
 		direction.x *= -1.0f;
 	}
 	if (((location.y + direction.y) < box_size.y) || (480.0f - box_size.y) < (location.y + direction.y))
 	{
 		direction.y *= -1.0f;
-	}
+	}*/
 
 	//進行方向に向かって、位置座標を変更する
 	location += direction;
 
-	//画像の削除	範囲外に行ったときに消す処理
 }
 
 //アニメーション制御

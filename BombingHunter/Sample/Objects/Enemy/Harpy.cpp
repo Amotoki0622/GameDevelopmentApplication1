@@ -96,6 +96,7 @@ void Harpy::OnHitCollision(GameObject* hit_object)
 	if (hit_object->GetType() == PLAYER_BOMB)
 	{
 		direction = 0.0f;				//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+		flg = TRUE;
 	}
 
 }

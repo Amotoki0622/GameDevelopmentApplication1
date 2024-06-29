@@ -90,22 +90,25 @@ void Bomb::OnHitCollision(GameObject* hit_object)
  	if (hit_object->GetType() == ENEMY_HAKO)
 	{
 		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+		flg = TRUE;
 	}
+	else if (hit_object->GetType() == ENEMY_HANE)
+		{
+			direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+			flg = TRUE;
+		}
 
-	if (hit_object->GetType() == ENEMY_HANE)
-	{
-		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
-	}
+	else if (hit_object->GetType() == ENEMY_GOLD)
+		{
+			direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+			flg = TRUE;
+		}
 
-	if (hit_object->GetType() == ENEMY_GOLD)
-	{
-		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
-	}
-
-	if (hit_object->GetType() == HARPY)
-	{
-		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
-	}
+	else if (hit_object->GetType() == HARPY)
+		{
+			direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+			flg = TRUE;
+		}
 
 }
 
