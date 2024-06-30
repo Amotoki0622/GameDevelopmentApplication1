@@ -2,7 +2,7 @@
 
 #include "../GameObject.h"
 
-class Enemy : public GameObject
+class Harpy : public GameObject
 {
 private:
 	int animation[2];					//アニメーション画像
@@ -10,8 +10,8 @@ private:
 	Vector2D direction;					//進行方向
 
 public:
-	Enemy();
-	~Enemy();
+	Harpy();
+	~Harpy();
 
 	virtual void Initialize() override;				//初期化処理
 	virtual void Update() override;					//更新処理
@@ -26,5 +26,4 @@ private:
 	void Movement();
 	//アニメーション制御
 	void AnimationControl();
-
 };

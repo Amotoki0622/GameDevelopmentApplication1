@@ -18,6 +18,7 @@ public:
 	virtual void Draw() const override;					//•`‰æˆ—
 	virtual void Finalize() override;					//I—¹ˆ—
 
+
 	//“–‚½‚è”»’è’Ê’mˆ—
 	virtual void OnHitCollision(GameObject* hit_object) override;
 

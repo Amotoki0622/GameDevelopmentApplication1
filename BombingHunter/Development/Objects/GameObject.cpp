@@ -7,7 +7,10 @@ GameObject::GameObject() :
 	box_size(0.0f),
 	radian(0.0),
 	image(NULL),
-	sound(NULL)
+	sound(NULL),
+	type(0),
+	flg(FALSE),
+	score(0)
 {
 }
 
@@ -51,6 +54,7 @@ void GameObject::Finalize()
 
 }
 
+
 //“–‚½‚è”»’è’Ê’mˆ—
 void GameObject::OnHitCollision(GameObject* hit_object)
 {
@@ -72,4 +76,19 @@ void GameObject::SetLocation(const Vector2D& location)
 Vector2D GameObject::GetBoxSize() const
 {
 	return box_size;
+}
+
+int GameObject::GetType()
+{
+	return this->type;
+}
+
+//int GameObject::GetScere()
+//{
+//	return this->score;
+//}
+
+bool GameObject::DeleteFlg()
+{
+	return this->flg;
 }

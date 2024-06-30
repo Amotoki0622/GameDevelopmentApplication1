@@ -20,7 +20,7 @@ void Enemy::Initialize()
 	
 	//これがなんのオブジェクトか判別する変数(この場合ハコテキ)
 	type = ENEMY_HAKO;
-	score = HAKOENEMY_P;
+
 	//画像の読込み
 	animation[0] = LoadGraph("Resource/Images/BoxEnemy/1.png");
 	animation[1] = LoadGraph("Resource/Images/BoxEnemy/2.png");

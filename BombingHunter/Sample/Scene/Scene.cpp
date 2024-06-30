@@ -14,11 +14,15 @@
 #define FRAME_RATE	(144)
 
 //コンストラクタ
-Scene::Scene() : objects(), image(0), count(0),time(60),time_count(0),score(0)
+Scene::Scene() : objects(), image(0), count(0),time(10),time_count(0),score(0),watch_image(0), finish_flg(FALSE)
 {
 	for (int i = 0; i < 12; i++)
 	{
 		number_image[i] = NULL;
+	}
+	for (int j = 0; j < 6; j++)
+	{
+		ui_finish[j] = NULL;
 	}
 }
 
@@ -46,9 +50,17 @@ void Scene::Initialize()
 	number_image[7] = LoadGraph("Resource/Images/Score/7.png");
 	number_image[8] = LoadGraph("Resource/Images/Score/8.png");
 	number_image[9] = LoadGraph("Resource/Images/Score/9.png");
-	//フォント
+	//フォントのUI	後に変数を変更
 	number_image[10] = LoadGraph("Resource/Images/Score/font-21.png");
 	number_image[11] = LoadGraph("Resource/Images/Score/hs.png");
+	watch_image = LoadGraph("Resource/Images/TimeLimit/timer-03.png");
+
+	//終了時のUI
+	ui_finish[0] = LoadGraph("Resource/Images/Evaluation/BAD.png");
+	ui_finish[1] = LoadGraph("Resource/Images/Evaluation/Finish.png");
+	ui_finish[2] = LoadGraph("Resource/Images/Evaluation/GOOD.png");
+	ui_finish[3] = LoadGraph("Resource/Images/Evaluation/OK.png");
+	ui_finish[4] = LoadGraph("Resource/Images/Evaluation/Perfect.png");
 
 	if (image == -1)
 	{
@@ -63,30 +75,22 @@ void Scene::Initialize()
 //更新処理
 void Scene::Update()
 {	
-	Timer();
-	/*time_count++;
 
-	if (time_count >= FRAME_RATE)
+	//もし終了フラグがTRUEだった場合、生成を終了する
+	if (finish_flg != TRUE)
 	{
-		time--;
-		time_count = 0;
+		if (count > 200)
+		{
+			count = 0;
+		}
+		else
+		{
+			//テキ自動生成処理
+			OutoSpawnEnemy();	
+			count++;
+		}
 	}
 
-	if (time == 0)
-	{
-		int a = 1;
-	}*/
-
-	if (count > 200)
-	{
-		count = 0;
-	}
-	else
-	{
-		//テキ自動生成処理
-		OutoSpawnEnemy();	
-		count++;
-	}
 
 	Vector2D p = 0.0;		//	プレイヤーの位置の更新した値を格納する変数
 	p = objects[0]->GetLocation().x;
@@ -129,16 +133,18 @@ void Scene::Update()
 			}*/
 	}
 
+	Timer();
+
+	FinishFlg();
+
 	//点数の合計
 	TotalScore();
 
 	//プレイヤーのたまに当たった時の削除処理
 	Delete();
 
-	
-
 	//オブジェクトが範囲外に行った時の削除処理
-	//ScreenOutDelete();
+	ScreenOutDelete();
 
 	//スペースキーを押したら、バクダンを生成する
 	if (InputControl::GetKeyDown(KEY_INPUT_SPACE))
@@ -156,7 +162,7 @@ void Scene::OutoSpawnEnemy()
 {
 	//CreateObject<Enemy>(Vector2D(100.0f, 390.0f));
 	int a;
-	a = rand() % 100 + 1;	//０～１００
+	a = rand() % 100 + 1;	//0～100までのランダムな数字を出す
 	if (a <= 1)
 	{
 		//乱数を取得(Y座標を150～390に収めるように)
@@ -297,6 +303,7 @@ void Scene::Delete()
 		}
 }
 
+//スコアの合計処理
 void Scene::TotalScore()
 {
 	for (int i = 0; i < objects.size(); i++)
@@ -336,36 +343,139 @@ void Scene::ScreenOutDelete()
 		{
 			objects.erase(objects.begin() + i);
 		}
+		else if (objects[i]->GetLocation().x > 700.0f && objects[i]->GetType() == ENEMY_HANE && objects[i]->DeleteFlg() == FALSE)
+		{
+			objects.erase(objects.begin() + i);
+		}
 	}
 }
 
 //描画処理
 void Scene::Draw() const
 {
-
-	DrawExtendGraph(0.0f, 0.0f, 640.0f, 480.0f, image, TRUE);
-
-	//制限時間の描画
-	DrawFormatString(30, 460, GetColor(255, 255, 255), "%d", time);
-	DrawFormatString(150, 460, GetColor(255, 255, 255), "スコア%d", score);
-	
-	//試作 時間の描画
-	DrawRotaGraphF(90, 460, 1.0, 0, number_image[10], TRUE, 0);
-	for (int i = 0; i < 2; i++)
-	{
-		DrawFormatString((30 +(i * 20)), 460, GetColor(255, 255, 255), "%d", time);
-		DrawFormatString((30 +(i * 20)), 460, GetColor(255, 255, 255), "%d", time);
-	}
-	//DrawRotaGraphF(30, 460, 1.0, 0, number_image[10], TRUE, 0);
-	
-
-
-
 	//シーンに存在するオブジェクトの描画処理
 	for (GameObject* obj : objects)
 	{
 		obj->Draw();
 	}
+}
+
+//制限時間(減少)の処理
+void Scene::Timer()
+{
+	time_count++;
+	if (time != 0)
+	{
+		if (time_count >= FRAME_RATE)
+		{
+			time--;
+			time_count = 0;
+		}
+	}
+	/*デバック(ちゃんと値が入っているか確認用)*/
+	/*if (time < 0)
+	{
+		time = 0;
+	}*/
+}
+
+
+//ゲーム終了処理フラグ
+void Scene::FinishFlg()
+{
+	if (time == 0)
+	{
+		finish_flg = TRUE;
+	}
+}
+
+
+//画面のUI描画処理
+void Scene::UiDraw()
+{
+	//背景画像の描画
+	DrawExtendGraph(0.0f, 0.0f, 640.0f, 480.0f, image, TRUE);
+
+
+	DrawRotaGraphF(190, 460, 1.0, 0, number_image[10], TRUE, 0);
+	if (score < 10)
+	{
+		DrawRotaGraphF(230, 460, 1.0, 0, number_image[0], TRUE, 0);
+	}
+	else if (score < 100)
+	{
+		DrawRotaGraphF(230, 460, 1.0, 0, number_image[(score / 10) % 10], TRUE, 0);
+		DrawRotaGraphF(245, 460, 1.0, 0, number_image[0], TRUE, 0);
+	}
+	else if (score < 999)
+	{
+		DrawRotaGraphF(230, 460, 1.0, 0, number_image[(score / 100) % 10], TRUE, 0);
+		DrawRotaGraphF(245, 460, 1.0, 0, number_image[(score / 10) % 10], TRUE, 0);
+		DrawRotaGraphF(260, 460, 1.0, 0, number_image[0], TRUE, 0);
+	}
+	else if (score < 9999)
+	{
+		DrawRotaGraphF(230, 460, 1.0, 0, number_image[(score / 1000) % 10], TRUE, 0);
+		DrawRotaGraphF(245, 460, 1.0, 0, number_image[(score / 100) % 10], TRUE, 0);
+		DrawRotaGraphF(260, 460, 1.0, 0, number_image[(score / 10) % 10], TRUE, 0);
+		DrawRotaGraphF(275, 460, 1.0, 0, number_image[0], TRUE, 0);
+	}
+	else if (score <= 99999)
+	{
+		DrawRotaGraphF(230, 460, 1.0, 0, number_image[(score / 10000) % 10], TRUE, 0);
+		DrawRotaGraphF(245, 460, 1.0, 0, number_image[(score / 1000) % 10], TRUE, 0);
+		DrawRotaGraphF(260, 460, 1.0, 0, number_image[(score / 100) % 10], TRUE, 0);
+		DrawRotaGraphF(275, 460, 1.0, 0, number_image[(score / 10) % 10], TRUE, 0);
+		DrawRotaGraphF(290, 460, 1.0, 0, number_image[0], TRUE, 0);
+	}
+	else
+	{
+		DrawRotaGraphF(230, 460, 1.0, 0, number_image[9], TRUE, 0);
+		DrawRotaGraphF(245, 460, 1.0, 0, number_image[9], TRUE, 0);
+		DrawRotaGraphF(260, 460, 1.0, 0, number_image[9], TRUE, 0);
+		DrawRotaGraphF(275, 460, 1.0, 0, number_image[9], TRUE, 0);
+		DrawRotaGraphF(290, 460, 1.0, 0, number_image[9], TRUE, 0);
+	}
+
+	//UIの時計の描画
+	//時計のイラストの描画
+	DrawRotaGraphF(20, 460, 0.6, 0, watch_image, TRUE, 0);
+	/*もしタイマーが2桁の場合*/
+	if (time >= 10)
+	{
+		DrawRotaGraphF(45, 460, 1.0, 0, number_image[time / 10], TRUE, 0);
+		DrawRotaGraphF(60, 460, 1.0, 0, number_image[time % 10], TRUE, 0);
+	}
+	//タイマーが1桁の場合
+	else if (time < 10)
+	{
+		DrawRotaGraphF(45, 460, 1.0, 0, number_image[time % 10], TRUE, 0);
+	}
+	//タイマーが0秒の場合
+	else if (time == 0)
+	{
+		DrawRotaGraphF(45, 460, 1.0, 0, number_image[0], TRUE, 0);
+	}
+	
+	//0秒になったら、ゲーム終了時UIに移動する
+	if (time < 0)
+	{
+		//UiFinishDraw();		//FinishのUIを描画する処理
+		UiFinish();
+	}
+
+
+	//試作 時間の描画
+		//DrawFormatString(30, 460, GetColor(255, 255, 255), "%d", time);
+
+	//制限時間の描画
+//	DrawFormatString(30, 460, GetColor(255, 255, 255), "%d", time);
+//	DrawFormatString(150, 460, GetColor(255, 255, 255), "スコア%d", score);
+
+	//試作 時間の描画(UIなし)
+//	DrawRotaGraphF(190, 460, 1.0, 0, number_image[10], TRUE, 0);
+
+	//DrawRotaGraphF(100, 460, 1.0, 0, number_image[10], TRUE, 0);
 }
 
 //終了時処理
@@ -388,20 +498,71 @@ void Scene::Finalize()
 	objects.clear();
 }
 
-//制限時間(減少)の処理
-void Scene::Timer()
+
+//ゲーム終了時UI
+void Scene::UiFinish()
 {
-	time_count++;
-	if (time_count >= FRAME_RATE)
+	DrawRotaGraphF(320, 240, 1.0, 0, ui_finish[1], TRUE, 0);
+	
+	int a, b;
+	a = 1;
+	b = 0;
+	b++;
+
+	if (a != 0)
 	{
-		time--;
-		time_count = 0;
+		if (b >= FRAME_RATE)
+		{
+			a--;
+			b = 0;
+		}
+
 	}
-	/*デバック(ちゃんと値が入っているか確認用)*/
-	if (time == 0)
+	
+
+	//if (score < 1000)
+	//{
+	//	//BAD
+	//	DrawRotaGraphF(320, 240, 1.0, 0, ui_finish[0], TRUE, 0);
+	//}
+	//else if (score < 4999)
+	//{
+	//	//OK
+	//	DrawRotaGraphF(320, 240, 0.5, 0, ui_finish[3], TRUE, 0);
+	//}
+	//else if (score < 9999)
+	//{
+	//	//GOOD
+	//	DrawRotaGraphF(320, 240, 0.7, 0, ui_finish[2], TRUE, 0);
+	//}
+	//else if (score < 49999)
+	//{
+	//	//Perfect
+	//	DrawRotaGraphF(320, 240, 1.0, 0, ui_finish[4], TRUE, 0);
+	//}
+
+	
+}
+
+void Scene::UiFinishDraw()
+{
+	DrawRotaGraphF(320, 240, 1.0, 0, ui_finish[1], TRUE, 0);
+	int a, b;
+	a = 1;
+	b = 0;
+	b++;
+	
+	if (a != 0)
 	{
-		time = 60;
+		if (b >= FRAME_RATE)
+		{
+			a--;
+			b = 0;
+		}
+		
 	}
+	//DeleteGraph(ui_finish[1]);
+	
 }
 
 #ifdef D_PIVOT_CENTER

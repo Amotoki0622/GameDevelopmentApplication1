@@ -2,7 +2,7 @@
 #include "DxLib.h"
 
 //コンストラクタ
-Bomb::Bomb() : animation_count(0),image(0), direction(0.0f)	
+Bomb::Bomb() : animation_count(0), image(0), direction(0.0f)
 {
 
 }
@@ -29,7 +29,7 @@ void Bomb::Initialize()
 	}
 
 	//向きの設定
-	radian = 3.14/2;
+	radian = 3.14 / 2;
 
 	//当たり判定の大きさと設定
 	box_size = 70.0f;
@@ -87,28 +87,28 @@ void Bomb::OnHitCollision(GameObject* hit_object)
 	//	弾を削除する(画像だけでなく、オブジェクト自体を)
 	//}
 	//direction = 0.0f;
- 	if (hit_object->GetType() == ENEMY_HAKO)
+	if (hit_object->GetType() == ENEMY_HAKO)
 	{
 		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
 		flg = TRUE;
 	}
 	else if (hit_object->GetType() == ENEMY_HANE)
-		{
-			direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
-			flg = TRUE;
-		}
+	{
+		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+		flg = TRUE;
+	}
 
 	else if (hit_object->GetType() == ENEMY_GOLD)
-		{
-			direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
-			flg = TRUE;
-		}
+	{
+		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+		flg = TRUE;
+	}
 
 	else if (hit_object->GetType() == HARPY)
-		{
-			direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
-			flg = TRUE;
-		}
+	{
+		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+		flg = TRUE;
+	}
 
 }
 

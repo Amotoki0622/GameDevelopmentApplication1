@@ -15,8 +15,8 @@
 //#define HARPY		(4)		//敵(一応ハコテキのオブジェクト)
 
 /*試作 (出現するオブジェクトのポイント)*/
-#define HAKOENEMY_P		(30)
-#define HANEENEMY_P		(100)
+#define HAKOENEMY_P		(200)
+#define HANEENEMY_P		(30)
 #define GOLDENEMY_P		(2000)
 #define HARPY_P			(-100)
 

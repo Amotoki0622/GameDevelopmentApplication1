@@ -2,16 +2,16 @@
 
 #include "../GameObject.h"
 
-class Enemy : public GameObject
+class Bomb : public GameObject
 {
 private:
-	int animation[2];					//アニメーション画像
+	int image;					//爆弾画像
 	int animation_count;		//アニメーション時間
 	Vector2D direction;					//進行方向
 
 public:
-	Enemy();
-	~Enemy();
+	Bomb();
+	~Bomb();
 
 	virtual void Initialize() override;				//初期化処理
 	virtual void Update() override;					//更新処理
@@ -24,7 +24,7 @@ public:
 private:
 	//移動処理
 	void Movement();
-	//アニメーション制御
-	void AnimationControl();
+	//アニメーション制御	後で使うかも
+	//void AnimationControl();	当たったとき
 
 };

@@ -45,6 +45,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,
 			//‰æ–Ê‚Ì‰Šú‰»
 			ClearDrawScreen();
 
+			//ƒV[ƒ“‚ÌUI‚Ì•`‰æ
+			scene->UiDraw();
+
 			//ƒV[ƒ“‚Ì•`‰æˆ—
 			scene->Draw();
 

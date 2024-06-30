@@ -8,14 +8,39 @@ class Scene
 private:
 	std::vector<GameObject*> objects;		//オブジェクトリスト
 
+private:
+	int image;					//背景画像
+	int count;					//自動生成カウント
+	int time_count;				//カウント
+	int time;					//時間
+	int number_image[12];		//数字の画像
+	int score;					//スコア	
+	//int score_im;				//スコアの画像
+	int watch_image;			//時計のイラスト
+	int ui_finish[5];
+	bool finish_flg;
 public:
 	Scene();
 	~Scene();
 
 	void Initialize();				//初期化処理
 	void Update();					//移動処理
+	void SpawnEnemy();				//敵の手動生成
+	void OutoSpawnEnemy();			//敵の自動生成
 	void Draw() const;				//描画処理
 	void Finalize();				//終了時処理
+	void Delete();					//削除処理
+	void ScreenOutDelete();			//画面外の削除処理
+
+	void Timer();
+	//void TimerUi();
+	void FinishFlg();
+	void UiFinish();
+	void UiFinishDraw();
+	void TotalScore();				//合計点数
+	void UiDraw();					//UI表示処理
+
+
 
 private:
 	//当たり判定チェック処理
