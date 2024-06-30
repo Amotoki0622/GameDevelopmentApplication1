@@ -10,17 +10,18 @@
 #include "DxLib.h"
 
 #define D_PIVOT_CENTER
+
 //フレームレート
 #define FRAME_RATE	(144)
 
 //コンストラクタ
-Scene::Scene() : objects(), image(0), count(0), time(10), time_count(0), score(0), watch_image(0), finish_flg(FALSE)
+Scene::Scene() : objects(), image(0), count(0), time(5), time_count(0), score(0), watch_image(0), finish_flg(FALSE)
 {
 	for (int i = 0; i < 12; i++)
 	{
 		number_image[i] = NULL;
 	}
-	for (int j = 0; j < 6; j++)
+	for (int j = 0; j < 5; j++)
 	{
 		ui_finish[j] = NULL;
 	}
@@ -79,6 +80,7 @@ void Scene::Update()
 	//もし終了フラグがTRUEだった場合、生成を終了する
 	if (finish_flg != TRUE)
 	{
+		//敵生成カウント
 		if (count > 200)
 		{
 			count = 0;
@@ -109,32 +111,13 @@ void Scene::Update()
 			//当たり判定チェック処理
 			HitCheckObject(objects[i], objects[j]);
 		}
-		//delete?
 
-		/*if (objects[i]->GetType() == ENEMY_HAKO && objects[i]->DeleteFlg() == TRUE)
-		{
-			objects.erase(objects.begin() + i);
-		}
-		 else if (objects[i]->GetType() == ENEMY_GOLD && objects[i]->DeleteFlg() == TRUE)
-			{
-				objects.erase(objects.begin() + i);
-			}
-		else if (objects[i]->GetType() == ENEMY_HANE && objects[i]->DeleteFlg() == TRUE)
-			{
-				objects.erase(objects.begin() + i);
-			}
-		else if (objects[i]->GetType() == PLAYER_BOMB && objects[i]->DeleteFlg() == TRUE)
-			{
-				objects.erase(objects.begin() + i);
-			}
-		else if (objects[i]->GetType() == HARPY && objects[i]->DeleteFlg() == TRUE)
-			{
-				objects.erase(objects.begin() + i);
-			}*/
 	}
 
+	//制限時間(減少)の処理
 	Timer();
 
+	//ゲーム終了時フラグ
 	FinishFlg();
 
 	//点数の合計
@@ -152,63 +135,48 @@ void Scene::Update()
 		CreateObject<Bomb>(Vector2D(p.x, 114.0f));
 	}
 
-	//テキ手動生成処理(デバック)
-	SpawnEnemy();
-
+	
+	if (finish_flg != TRUE)
+	{
+		//テキ手動生成処理(デバック)
+		SpawnEnemy();
+	}
+	
 }
 
 //試作テキ自動生成処理
 void Scene::OutoSpawnEnemy()
 {
-	//CreateObject<Enemy>(Vector2D(100.0f, 390.0f));
-	int a;
-	a = rand() % 100 + 1;	//0～100までのランダムな数字を出す
-	if (a <= 1)
+	//乱数を取得する変数
+	int rd;
+	rd = rand() % 100 + 1;	//100までのランダムな数字を出す
+	//乱数が1以下の時
+	if (rd <= 1)
 	{
 		//乱数を取得(Y座標を150～390に収めるように)
 		int ran = GetRand(2);
+		//ランダムで敵の種類が出るように(0～3の乱数を取得)
 		int ran2 = GetRand(3);
 
 		switch (ran2)
 		{
 		case 0:
-			CreateObject<Enemy>(Vector2D(100.0f, 390.0f));
+			CreateObject<Enemy>(Vector2D(-70.0f, 390.0f));
 			break;
 
 		case 1:
-			CreateObject<GoldEnemy>(Vector2D(100.0f, 390.0f));
+			CreateObject<GoldEnemy>(Vector2D(-70.0f, 390.0f));
 			break;
 
 		case 2:
-			CreateObject<Harpy>(Vector2D(100.0f, 150.0f + (ran * 80.0f)));
+			CreateObject<Harpy>(Vector2D(-70.0f, 150.0f + (ran * 80.0f)));
 			break;
 
 		case 3:
-			CreateObject<WingEnemy>(Vector2D(100.0f, 150.0f + (ran * 80.0f)));
+			CreateObject<WingEnemy>(Vector2D(-70.0f, 150.0f + (ran * 80.0f)));
 			break;
 		}
-		/*switch (ran2)
-		{
-		case 0:
-			CreateObject<Enemy>(Vector2D(100.0f, 390.0f));
-			break;
-
-		case 1:
-			CreateObject<GoldEnemy>(Vector2D(100.0f, 390.0f));
-			break;
-
-		case 2:
-			CreateObject<Harpy>(Vector2D(100.0f, 150.0f + (ran * 80.0f)));
-			break;
-
-		case 3:
-			CreateObject<WingEnemy>(Vector2D(100.0f, 150.0f + (ran * 80.0f)));
-			break;
-		}*/
 	}
-
-
-
 }
 
 //試作オブジェクト手動生成処理
@@ -239,26 +207,6 @@ void Scene::SpawnEnemy()
 			CreateObject<WingEnemy>(Vector2D(100.0f, 150.0f + (ran * 80.0f)));
 			break;
 		}
-
-		//switch (ran2)
-		//{
-		//case 0:
-		//	CreateObject<Enemy>(Vector2D(100.0f, 150.0f + (ran * 80)));
-		//	break;
-		//
-		//case 1:
-		//	CreateObject<GoldEnemy>(Vector2D(100.0f, 150.0f + (ran * 80)));
-		//	break;
-		//
-		//case 2:
-		//	CreateObject<Harpy>(Vector2D(100.0f, 150.0f + (ran * 80)));
-		//	break;
-		//
-		//case 3:
-		//	CreateObject<WingEnemy>(Vector2D(100.0f, 150.0f + (ran * 80)));
-		//	break;
-		//}
-		//CreateObject<Enemy>(Vector2D(100.0f, 150.0f + (ran * 80)));
 	}
 
 	//Cキーを押したら、敵を生成する(デバック用)
@@ -279,57 +227,31 @@ void Scene::Delete()
 {
 	for (int i = 0; i < objects.size(); i++)
 	{
-
+		//当たった敵の種類がハコテキかつ削除フラグがTRUEの時
 		if (objects[i]->GetType() == ENEMY_HAKO && objects[i]->DeleteFlg() == TRUE)
 		{
 			objects.erase(objects.begin() + i);
 		}
+		//当たった敵の種類が金のテキかつ削除フラグがTRUEの時
 		else if (objects[i]->GetType() == ENEMY_GOLD && objects[i]->DeleteFlg() == TRUE)
 		{
 			objects.erase(objects.begin() + i);
 		}
+		//当たった敵の種類がハネテキかつ削除フラグがTRUEの時
 		else if (objects[i]->GetType() == ENEMY_HANE && objects[i]->DeleteFlg() == TRUE)
 		{
 			objects.erase(objects.begin() + i);
 		}
+		//当たった敵の種類がハーピーかつ削除フラグがTRUEの時
+		else if (objects[i]->GetType() == HARPY && objects[i]->DeleteFlg() == TRUE)
+		{
+			objects.erase(objects.begin() + i);
+		}	
+		//当たった敵の種類がプレイヤー弾かつ削除フラグがTRUEの時
 		else if (objects[i]->GetType() == PLAYER_BOMB && objects[i]->DeleteFlg() == TRUE)
 		{
 			objects.erase(objects.begin() + i);
 		}
-		else if (objects[i]->GetType() == HARPY && objects[i]->DeleteFlg() == TRUE)
-		{
-			objects.erase(objects.begin() + i);
-		}
-	}
-}
-
-//スコアの合計処理
-void Scene::TotalScore()
-{
-	for (int i = 0; i < objects.size(); i++)
-	{
-		if (objects[i]->GetType() == ENEMY_HAKO && objects[i]->DeleteFlg() == TRUE)
-		{
-			score += HAKOENEMY_P;
-		}
-		else if (objects[i]->GetType() == ENEMY_HANE && objects[i]->DeleteFlg() == TRUE)
-		{
-			score += HANEENEMY_P;
-		}
-		else if (objects[i]->GetType() == ENEMY_GOLD && objects[i]->DeleteFlg() == TRUE)
-		{
-			score += GOLDENEMY_P;
-		}
-		else if (objects[i]->GetType() == HARPY && objects[i]->DeleteFlg() == TRUE)
-		{
-			score += HARPY_P;
-		}
-
-	}
-	//スコアの合計がもし-になったとき、値を0にする
-	if (score < 0)
-	{
-		score = 0;
 	}
 }
 
@@ -343,12 +265,65 @@ void Scene::ScreenOutDelete()
 		{
 			objects.erase(objects.begin() + i);
 		}
+		//ハネテキが画面外に行ったら、削除する
 		else if (objects[i]->GetLocation().x > 700.0f && objects[i]->GetType() == ENEMY_HANE && objects[i]->DeleteFlg() == FALSE)
 		{
 			objects.erase(objects.begin() + i);
 		}
+		//金のテキが画面外に行ったら、削除する
+		else if (objects[i]->GetLocation().x > 700.0f && objects[i]->GetType() == ENEMY_GOLD && objects[i]->DeleteFlg() == FALSE)
+		{
+			objects.erase(objects.begin() + i);
+		}
+		//ハーピーが画面外に行ったら、削除する
+		else if (objects[i]->GetLocation().x > 700.0f && objects[i]->GetType() == HARPY && objects[i]->DeleteFlg() == FALSE)
+		{
+			objects.erase(objects.begin() + i);
+		}
+		//プレイヤーの弾が画面外に行ったら、削除する
+		else if (objects[i]->GetLocation().y > 440.0f && objects[i]->GetType() == PLAYER_BOMB && objects[i]->DeleteFlg() == FALSE)
+		{
+			objects.erase(objects.begin() + i);
+		}
+
+
 	}
 }
+
+//スコアの合計処理
+void Scene::TotalScore()
+{
+	for (int i = 0; i < objects.size(); i++)
+	{
+		//当たった敵の種類がハコテキかつ
+		if (objects[i]->GetType() == ENEMY_HAKO && objects[i]->DeleteFlg() == TRUE)
+		{
+			score += HAKOENEMY_P;
+		}
+		//当たった敵の種類がハネテキかつ削除フラグがTRUEの時
+		else if (objects[i]->GetType() == ENEMY_HANE && objects[i]->DeleteFlg() == TRUE)
+		{
+			score += HANEENEMY_P;
+		}
+		//当たった敵の種類が金のテキかつ削除フラグがTRUEの時削除フラグがTRUEの時
+		else if (objects[i]->GetType() == ENEMY_GOLD && objects[i]->DeleteFlg() == TRUE)
+		{
+			score += GOLDENEMY_P;
+		}
+		//当たった敵の種類がハーピーかつ削除フラグがTRUEの時
+		else if (objects[i]->GetType() == HARPY && objects[i]->DeleteFlg() == TRUE)
+		{
+			score += HARPY_P;
+		}
+
+	}
+	//スコアの合計がもし-になったとき、値を0にする
+	if (score < 0)
+	{
+		score = 0;
+	}
+}
+
 
 //描画処理
 void Scene::Draw() const
@@ -360,31 +335,29 @@ void Scene::Draw() const
 	}
 }
 
-//制限時間(減少)の処理
+//制限時間(減少)処理
 void Scene::Timer()
 {
 	time_count++;
 	if (time != 0)
 	{
+		//timeのカウントがフレームレート数になったら、
 		if (time_count >= FRAME_RATE)
 		{
+			//秒数を1減少させる
 			time--;
+			//カウントを0にする
 			time_count = 0;
 		}
 	}
-	/*デバック(ちゃんと値が入っているか確認用)*/
-	/*if (time < 0)
-	{
-		time = 0;
-	}*/
 }
-
 
 //ゲーム終了処理フラグ
 void Scene::FinishFlg()
 {
 	if (time == 0)
 	{
+		//タイマーが0になったら、TRUEにする
 		finish_flg = TRUE;
 	}
 }
@@ -396,23 +369,32 @@ void Scene::UiDraw()
 	//背景画像の描画
 	DrawExtendGraph(0.0f, 0.0f, 640.0f, 480.0f, image, TRUE);
 
-
+	//UI「スコアの描画」
 	DrawRotaGraphF(190, 460, 1.0, 0, number_image[10], TRUE, 0);
+
+	//UI「時計」の描画
+	DrawRotaGraphF(20, 460, 0.6, 0, watch_image, TRUE, 0);
+
+	//UI合計スコアの描画
+	//合計スコアが10より小さい時
 	if (score < 10)
 	{
 		DrawRotaGraphF(230, 460, 1.0, 0, number_image[0], TRUE, 0);
 	}
+	//合計スコアが100より小さいの時
 	else if (score < 100)
 	{
 		DrawRotaGraphF(230, 460, 1.0, 0, number_image[(score / 10) % 10], TRUE, 0);
 		DrawRotaGraphF(245, 460, 1.0, 0, number_image[0], TRUE, 0);
 	}
+	//合計スコアが1000より小さいの時
 	else if (score < 999)
 	{
 		DrawRotaGraphF(230, 460, 1.0, 0, number_image[(score / 100) % 10], TRUE, 0);
 		DrawRotaGraphF(245, 460, 1.0, 0, number_image[(score / 10) % 10], TRUE, 0);
 		DrawRotaGraphF(260, 460, 1.0, 0, number_image[0], TRUE, 0);
 	}
+	//合計スコアが10000より小さいの時
 	else if (score < 9999)
 	{
 		DrawRotaGraphF(230, 460, 1.0, 0, number_image[(score / 1000) % 10], TRUE, 0);
@@ -420,6 +402,7 @@ void Scene::UiDraw()
 		DrawRotaGraphF(260, 460, 1.0, 0, number_image[(score / 10) % 10], TRUE, 0);
 		DrawRotaGraphF(275, 460, 1.0, 0, number_image[0], TRUE, 0);
 	}
+	//合計スコアが100000以下の時
 	else if (score <= 99999)
 	{
 		DrawRotaGraphF(230, 460, 1.0, 0, number_image[(score / 10000) % 10], TRUE, 0);
@@ -428,6 +411,7 @@ void Scene::UiDraw()
 		DrawRotaGraphF(275, 460, 1.0, 0, number_image[(score / 10) % 10], TRUE, 0);
 		DrawRotaGraphF(290, 460, 1.0, 0, number_image[0], TRUE, 0);
 	}
+	//カンスト用
 	else
 	{
 		DrawRotaGraphF(230, 460, 1.0, 0, number_image[9], TRUE, 0);
@@ -437,9 +421,7 @@ void Scene::UiDraw()
 		DrawRotaGraphF(290, 460, 1.0, 0, number_image[9], TRUE, 0);
 	}
 
-	//UIの時計の描画
-	//時計のイラストの描画
-	DrawRotaGraphF(20, 460, 0.6, 0, watch_image, TRUE, 0);
+	//UIタイマー(制限時間)の描画
 	/*もしタイマーが2桁の場合*/
 	if (time >= 10)
 	{
@@ -458,24 +440,10 @@ void Scene::UiDraw()
 	}
 
 	//0秒になったら、ゲーム終了時UIに移動する
-	if (time < 0)
+	if (time == 0)
 	{
-		//UiFinishDraw();		//FinishのUIを描画する処理
 		UiFinish();
 	}
-
-
-	//試作 時間の描画
-		//DrawFormatString(30, 460, GetColor(255, 255, 255), "%d", time);
-
-	//制限時間の描画
-//	DrawFormatString(30, 460, GetColor(255, 255, 255), "%d", time);
-//	DrawFormatString(150, 460, GetColor(255, 255, 255), "スコア%d", score);
-
-	//試作 時間の描画(UIなし)
-//	DrawRotaGraphF(190, 460, 1.0, 0, number_image[10], TRUE, 0);
-
-	//DrawRotaGraphF(100, 460, 1.0, 0, number_image[10], TRUE, 0);
 }
 
 //終了時処理
@@ -502,67 +470,32 @@ void Scene::Finalize()
 //ゲーム終了時UI
 void Scene::UiFinish()
 {
-	DrawRotaGraphF(320, 240, 1.0, 0, ui_finish[1], TRUE, 0);
-
-	int a, b;
-	a = 1;
-	b = 0;
-	b++;
-
-	if (a != 0)
+	//スコアが●●より小さかったら、
+	if (score < 1000)
 	{
-		if (b >= FRAME_RATE)
-		{
-			a--;
-			b = 0;
-		}
-
+		//BADを描画する
+		DrawRotaGraphF(320, 240, 1.0, 0, ui_finish[0], TRUE, 0);
 	}
-
-
-	//if (score < 1000)
-	//{
-	//	//BAD
-	//	DrawRotaGraphF(320, 240, 1.0, 0, ui_finish[0], TRUE, 0);
-	//}
-	//else if (score < 4999)
-	//{
-	//	//OK
-	//	DrawRotaGraphF(320, 240, 0.5, 0, ui_finish[3], TRUE, 0);
-	//}
-	//else if (score < 9999)
-	//{
-	//	//GOOD
-	//	DrawRotaGraphF(320, 240, 0.7, 0, ui_finish[2], TRUE, 0);
-	//}
-	//else if (score < 49999)
-	//{
-	//	//Perfect
-	//	DrawRotaGraphF(320, 240, 1.0, 0, ui_finish[4], TRUE, 0);
-	//}
-
-
-}
-
-void Scene::UiFinishDraw()
-{
-	DrawRotaGraphF(320, 240, 1.0, 0, ui_finish[1], TRUE, 0);
-	int a, b;
-	a = 1;
-	b = 0;
-	b++;
-
-	if (a != 0)
+	else if (score < 4999)
 	{
-		if (b >= FRAME_RATE)
-		{
-			a--;
-			b = 0;
-		}
-
+		//OKを描画する
+		DrawRotaGraphF(320, 240, 0.5, 0, ui_finish[3], TRUE, 0);
 	}
-	//DeleteGraph(ui_finish[1]);
-
+	else if (score < 19999)
+	{
+		//GOODを描画する
+		DrawRotaGraphF(320, 240, 0.7, 0, ui_finish[2], TRUE, 0);
+	}
+	else if (score > 99999)
+	{
+		//Perfectを描画する
+		DrawRotaGraphF(320, 240, 1.0, 0, ui_finish[4], TRUE, 0);
+	}
+	else
+	{
+		//スコアカンスト用
+		DrawRotaGraphF(320, 240, 1.0, 0, ui_finish[4], TRUE, 0);
+	}
 }
 
 #ifdef D_PIVOT_CENTER
@@ -579,13 +512,11 @@ void Scene::HitCheckObject(GameObject* a, GameObject* b)
 	if ((fabsf(diff.x) < box_size.x) && (fabsf(diff.y) < box_size.y))
 	{
 		//当たったことをオブジェクトに通知する
-		a->OnHitCollision(b);
-		b->OnHitCollision(a);
-		//delete?
-		/*if (a->GetType() == ENEMY_HAKO && a->DeleteFlg() == TRUE)
+		if (finish_flg != TRUE)
 		{
-			objects.erase(objects.begin() + 1);
-		}*/
+			a->OnHitCollision(b);
+			b->OnHitCollision(a);
+		}
 	}
 }
 #else

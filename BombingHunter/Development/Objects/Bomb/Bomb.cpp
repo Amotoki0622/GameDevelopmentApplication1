@@ -51,19 +51,6 @@ void Bomb::Update()
 //描画処理
 void Bomb::Draw() const
 {
-	////画像反転フラグ
-	//int flip_flag = FALSE;
-	//
-	////進行方向によって、反転状態を決定する
-	//if (direction.x > 0.0f)
-	//{
-	//	flip_flag = FALSE;
-	//}
-	//else
-	//{
-	//	flip_flag = TRUE;
-	//}
-	//情報を基にバクダン画像を描画する
 	DrawRotaGraphF(location.x, location.y, 0.7, radian, image, TRUE, FALSE);
 
 	//親クラスの描画処理を呼び出す
@@ -80,33 +67,27 @@ void Bomb::Finalize()
 //当たり判定通知処理
 void Bomb::OnHitCollision(GameObject* hit_object)
 {
-	//当たったときの処理
-	//if(もし当たったのが敵だったら)
-	//{
-	// AnimationControl(当たったとき)
-	//	弾を削除する(画像だけでなく、オブジェクト自体を)
-	//}
-	//direction = 0.0f;
+
 	if (hit_object->GetType() == ENEMY_HAKO)
 	{
-		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+		//削除するFlgをTRUEにする
 		flg = TRUE;
 	}
 	else if (hit_object->GetType() == ENEMY_HANE)
 	{
-		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+		//削除するFlgをTRUEにする
 		flg = TRUE;
 	}
 
 	else if (hit_object->GetType() == ENEMY_GOLD)
 	{
-		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+		//削除するFlgをTRUEにする
 		flg = TRUE;
 	}
 
 	else if (hit_object->GetType() == HARPY)
 	{
-		direction = 0.0f;		//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+		//削除するFlgをTRUEにする
 		flg = TRUE;
 	}
 
@@ -115,40 +96,7 @@ void Bomb::OnHitCollision(GameObject* hit_object)
 //移動処理
 void Bomb::Movement()
 {
-	//画面端に到達したら、進行方向を反転する
-	//if (((location.x + direction.x) < box_size.x) || (640.0f - box_size.x) < (location.x + direction.x))
-	//{
-	//	direction.x *= -1.0f;
-	//}
-	//if (((location.y + direction.y) < box_size.y) || (480.0f - box_size.y) < (location.y + direction.y))
-	//{
-	//	direction.y *= -1.0f;
-	//}
 
 	//進行方向に向かって、位置座標を変更する
 	location += direction;
 }
-
-//アニメーション制御
-//void Bomb::AnimationControl()
-//{
-//	//アニメーションカウントを加算する
-//	animation_count++;
-//
-//	//30フレーム目に到達したら
-//	if (animation_count >= 60)
-//	{
-//		//カウントのリセット
-//		animation_count = 0;
-//
-//		//画像の切り替え
-//		if (image == animation[0])
-//		{
-//			image = animation[1];
-//		}
-//		else
-//		{
-//			image = animation[0];
-//		}
-//	}
-//}

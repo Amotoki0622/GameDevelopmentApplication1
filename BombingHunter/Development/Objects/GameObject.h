@@ -4,29 +4,19 @@
 
 #define D_PIVOT_CENTER			//座標の原点を画像の中心にする
 
-//#define ENEMY_ALL	(6)			//敵の総数(敵の弾も含める)	
-
-
-/*試作 (Developmentに書くときはもっとわかりやすく)*/
-//#define PLAYER_BOMB		(0)			//敵の弾
-//#define ENEMY_HAKO		(1)		//敵(ハコテキのオブジェクト)
-//#define ENEMY_HANE		(2)		//敵(一応ハネテキのオブジェクト)
-//#define ENEMY_GOLD		(3)		//敵(一応金のテキのオブジェクト)
-//#define HARPY		(4)		//敵(一応ハコテキのオブジェクト)
-
-/*試作 (出現するオブジェクトのポイント)*/
+/*出現するオブジェクトのポイント*/
 #define HAKOENEMY_P		(200)
 #define HANEENEMY_P		(30)
 #define GOLDENEMY_P		(2000)
 #define HARPY_P			(-100)
 
-enum Object
+enum Objects
 {
-	PLAYER_BOMB,
-	ENEMY_HAKO,
-	ENEMY_HANE,
-	ENEMY_GOLD,
-	HARPY
+	PLAYER_BOMB,		//プレイヤー弾
+	ENEMY_HAKO,			//ハコテキ
+	ENEMY_HANE,			//ハネテキ
+	ENEMY_GOLD,			//金のテキ
+	HARPY			//ハーピー
 };
 
 //ゲームオブジェクト基底クラス
@@ -66,8 +56,7 @@ public:
 	//オブジェクトのタイプを判別する処理
 	int GetType();
 
+	//削除フラグ
 	bool DeleteFlg();
 
-	//スコアの値を判別する処理
-	//int GetScere();
 };

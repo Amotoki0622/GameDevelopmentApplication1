@@ -15,10 +15,9 @@ private:
 	int time;					//時間
 	int number_image[12];		//数字の画像
 	int score;					//スコア	
-	//int score_im;				//スコアの画像
 	int watch_image;			//時計のイラスト
-	int ui_finish[5];
-	bool finish_flg;
+	int ui_finish[5];			//終了時のUiイラスト
+	bool finish_flg;			//ゲーム終了フラグ
 public:
 	Scene();
 	~Scene();
@@ -32,9 +31,8 @@ public:
 	void Delete();					//削除処理
 	void ScreenOutDelete();			//画面外の削除処理
 
-	void Timer();
-	//void TimerUi();
-	void FinishFlg();
+	void Timer();					//制限時間(減少)処理
+	void FinishFlg();				//ゲーム終了処理フラグ
 	void UiFinish();
 	void UiFinishDraw();
 	void TotalScore();				//合計点数

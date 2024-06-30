@@ -24,7 +24,5 @@ public:
 private:
 	//移動処理
 	void Movement();
-	//アニメーション制御	後で使うかも
-	//void AnimationControl();	当たったとき
 
 };

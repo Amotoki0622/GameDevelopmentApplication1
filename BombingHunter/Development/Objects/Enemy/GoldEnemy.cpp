@@ -48,8 +48,6 @@ void GoldEnemy::Initialize()
 	//初期進行方向の設定
 	direction = Vector2D(1.0f, 0.0f);
 
-	//	int spran = GetRand(5);
-	//	direction = Vector2D(spran / 10.0f, 0.0f);
 
 }
 
@@ -97,13 +95,13 @@ void GoldEnemy::Finalize()
 //当たり判定通知処理
 void GoldEnemy::OnHitCollision(GameObject* hit_object)
 {
-	//当たったときの処理
-	//direction = 0.0f;
 
 	//プレイヤーの弾と当たったとき
 	if (hit_object->GetType() == PLAYER_BOMB)
 	{
 		direction = 0.0f;				//この後は消す処理にする(画像だけでなくオブジェクトから送られた値すべて)
+
+		//削除するFlgをTRUEにする
 		flg = TRUE;
 	}
 }
@@ -111,15 +109,6 @@ void GoldEnemy::OnHitCollision(GameObject* hit_object)
 //移動処理
 void GoldEnemy::Movement()
 {
-	//画面端に到達したら、進行方向を反転する
-	if (((location.x + direction.x) < box_size.x) || (640.0f - box_size.x) < (location.x + direction.x))
-	{
-		direction.x *= -1.0f;
-	}
-	if (((location.y + direction.y) < box_size.y) || (480.0f - box_size.y) < (location.y + direction.y))
-	{
-		direction.y *= -1.0f;
-	}
 
 	//進行方向に向かって、位置座標を変更する
 	location += direction;
