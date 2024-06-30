@@ -15,7 +15,7 @@
 #define FRAME_RATE	(144)
 
 //コンストラクタ
-Scene::Scene() : objects(), image(0), count(0), time(5), time_count(0), score(0), watch_image(0), finish_flg(FALSE)
+Scene::Scene() : objects(), image(0), count(0), time(60), time_count(0), score(0), watch_image(0), finish_flg(FALSE)
 {
 	for (int i = 0; i < 12; i++)
 	{
@@ -89,12 +89,15 @@ void Scene::Update()
 		{
 			//テキ自動生成処理
 			OutoSpawnEnemy();
+			//カウントを増加する
 			count++;
 		}
 	}
 
 
 	Vector2D p = 0.0;		//	プレイヤーの位置の更新した値を格納する変数
+	
+	//プレイヤーの位置座標を呼び出す
 	p = objects[0]->GetLocation().x;
 
 	//シーンに存在するオブジェクトの更新処理
@@ -135,7 +138,7 @@ void Scene::Update()
 		CreateObject<Bomb>(Vector2D(p.x, 114.0f));
 	}
 
-	
+	//削除フラグがTRUEだったら、
 	if (finish_flg != TRUE)
 	{
 		//テキ手動生成処理(デバック)
@@ -187,6 +190,7 @@ void Scene::SpawnEnemy()
 	{
 		//乱数を取得(Y座標を150～390に収めるように)
 		int ran = GetRand(2);
+		//ランダムで敵の種類が出るように(0～3の乱数を取得)
 		int ran2 = GetRand(3);
 
 		switch (ran2)
@@ -285,8 +289,6 @@ void Scene::ScreenOutDelete()
 		{
 			objects.erase(objects.begin() + i);
 		}
-
-
 	}
 }
 
@@ -338,6 +340,7 @@ void Scene::Draw() const
 //制限時間(減少)処理
 void Scene::Timer()
 {
+	//Timeカウントを増加させる
 	time_count++;
 	if (time != 0)
 	{
@@ -438,7 +441,6 @@ void Scene::UiDraw()
 	{
 		DrawRotaGraphF(45, 460, 1.0, 0, number_image[0], TRUE, 0);
 	}
-
 	//0秒になったら、ゲーム終了時UIに移動する
 	if (time == 0)
 	{
