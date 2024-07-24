@@ -187,7 +187,13 @@ public:
 	/// ゲームオブジェクト生成処理
 	/// </summary>
 	/// <typeparam name="OBJECT">生成するゲームオブジェクトクラス</typeparam>
-	/// <param name="generate_location">生成位置</param>
+	/// <param name="generate_
+	/// 
+	/// 
+	/// 
+	/// 
+	/// 
+	/// ">生成位置</param>
 	/// <returns>生成したゲームオブジェクトのポインタ</returns>
 	template <class OBJECT>
 	OBJECT* CreateObject(const Vector2D& generate_location)
