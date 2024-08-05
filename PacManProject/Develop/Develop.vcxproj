@@ -134,9 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
-    <ClCompile Include="Objects\Enemy\Aka.cpp" />
     <ClCompile Include="Objects\Enemy\EnemyBase.cpp" />
-    <ClCompile Include="Objects\Enemy\EnemyType\Aka_Debug.cpp" />
     <ClCompile Include="Objects\Enemy\EnemyType\BlueEnemy.cpp" />
     <ClCompile Include="Objects\Enemy\EnemyType\OrangeEnemy.cpp" />
     <ClCompile Include="Objects\Enemy\EnemyType\PinkEnemy.cpp" />
@@ -158,8 +156,6 @@
     <ClCompile Include="Utility\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Objects\Enemy\Aka.h" />
-    <ClInclude Include="Objects\Enemy\EnemyType\Aka_Debug.h" />
     <ClInclude Include="Objects\Enemy\EnemyType\BlueEnemy.h" />
     <ClInclude Include="Objects\Enemy\EnemyType\OrangeEnemy.h" />
     <ClInclude Include="Objects\Enemy\EnemyType\PinkEnemy.h" />
