@@ -24,7 +24,7 @@ private:
 		RIGHT,
 		DOWN,
 		LEFT,
-		NONE,
+		NONE,		
 	};
 
 private:

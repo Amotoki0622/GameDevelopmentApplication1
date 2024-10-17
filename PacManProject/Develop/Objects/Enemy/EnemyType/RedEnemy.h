@@ -5,20 +5,21 @@
 /// <summary>
 /// テキクラス(赤べぇ)
 /// </summary>
-class RedEnemy : EnemyBase
+class RedEnemy : public EnemyBase
 {
+private:
 
 public:
 	RedEnemy();
 	virtual ~RedEnemy();
 
 public:
-	virtual void Initialize() override;
-	virtual void Update(float delta_second) override;
-	virtual void Draw(const Vector2D& screen_offset) const override;
-	virtual void Finalize() override;
+	void Initialize();
+	void Update(float delta_second) override;
+	void Draw(const Vector2D& screen_offset) const override;
+	void Finalize() override;
 
-
+	
 	/// <summary>
 	/// 当たり判定通知処理
 	/// </summary>
@@ -70,4 +71,5 @@ private:
 	/// </summary>
 	/// <param name="delta_second">1フレームあたりの時間</param>
 	virtual void Eye(float delta_second);
+
 };

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../GameObject.h"
+#include "../../Utility/StageData.h"
 
 // テキ状態
 enum eEnemyState
@@ -17,6 +18,7 @@ enum eEnemyState
 /// </summary>
 class EnemyBase : public GameObject
 {
+protected:
 	// 進行方向状態
 	enum eDirectionState : unsigned char
 	{
@@ -25,23 +27,31 @@ class EnemyBase : public GameObject
 		DOWN,
 		LEFT,
 	};
-protected:
+
+
 	std::vector<int> move_animation;
 	std::vector<int> eye_animation;
+	Vector2D old_location;
 	Vector2D velocity;
 	eEnemyState enemy_state;
 	eDirectionState now_direction_state;
 	float animation_time;
 	int animation_count;
+	ePanelID old_panel;
 	float switching_time;
+
+	int image;
 public:
 	EnemyBase();
 	virtual ~EnemyBase();
 
+	// 移動アニメーションの順番
+	const int animation_num[4] = { 0, 1, 2, 1, };
+
 	virtual void Initialize() override;
 	virtual void Update(float delta_second) override;
-	virtual void Draw(const Vector2D& screen_offset) const;
-	virtual void Finalize() override;
+	virtual void Draw(const Vector2D& screen_offset) const override;
+	virtual void Finalize();
 
 	/// <summary>
 	/// 当たり判定通知処理
