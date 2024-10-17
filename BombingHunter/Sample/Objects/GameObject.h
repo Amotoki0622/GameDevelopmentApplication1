@@ -22,11 +22,11 @@
 
 enum Object
 {
-	PLAYER_BOMB,	
-	ENEMY_HAKO,	
-	ENEMY_HANE,	
-	ENEMY_GOLD,	
-	HARPY		
+	PLAYER_BOMB,			
+	ENEMY_HAKO,				
+	ENEMY_HANE,				
+	ENEMY_GOLD,				
+	HARPY					
 };
 
 //ゲームオブジェクト基底クラス
