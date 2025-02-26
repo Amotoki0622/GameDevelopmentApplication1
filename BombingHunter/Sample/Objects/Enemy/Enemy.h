@@ -13,10 +13,10 @@ public:
 	Enemy();
 	~Enemy();
 
-	virtual void Initialize() override;				//初期化処理
-	virtual void Update() override;					//更新処理
-	virtual void Draw() const override;				//描画処理
-	virtual void Finalize() override;				//終了処理
+	void Initialize() override;				//初期化処理
+	void Update() override;					//更新処理
+	void Draw() const override;				//描画処理
+	void Finalize() override;				//終了処理
 
 	//当たり判定通知処理
 	virtual void OnHitCollision(GameObject* hit_object) override;
